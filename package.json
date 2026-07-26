@@ -3,17 +3,20 @@
   "version": "1.0.1",
   "description": "Premium React micro-interactions & UI component library powered by Motion. Zero-config CLI tool.",
   "author": "Syed Subhan <su2491251@gmail.com> (https://x.com/SubhanHQ)",
+  "contributors": [
+    "cybereun (https://github.com/cybereun)"
+  ],
   "license": "MIT",
   "type": "module",
   "main": "dist/index.html",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Subhan-code/Amicro--Micro-transitions-.git"
+    "url": "git+https://github.com/cybereun/Amicro--Micro-transitions-.git"
   },
   "bugs": {
-    "url": "https://github.com/Subhan-code/Amicro--Micro-transitions-/issues"
+    "url": "https://github.com/cybereun/Amicro--Micro-transitions-/issues"
   },
-  "homepage": "https://github.com/Subhan-code/Amicro--Micro-transitions-#readme",
+  "homepage": "https://github.com/cybereun/Amicro--Micro-transitions-#readme",
   "keywords": [
     "react",
     "ui",

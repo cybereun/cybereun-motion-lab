@@ -1,4 +1,8 @@
-# @subhanhq/amicro
+# Cybereun Motion Lab
+
+Personalized by [@cybereun](https://github.com/cybereun) with a deep navy visual system, a redesigned hero, and faster catalog search. Based on `@subhanhq/amicro` and distributed under the original MIT License.
+
+## Original project
 
 A curated collection of premium React micro-interactions, transition components, and card layouts powered by **Motion**.
 

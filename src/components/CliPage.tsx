@@ -49,7 +49,7 @@ export function CliPage({ theme, onNavigateHome }: CliPageProps) {
   const isDark = theme === 'dark';
 
   return (
-    <div className={`w-full min-h-dvh transition-colors duration-300 pb-20 ${isDark ? 'bg-[#121212] text-white' : 'bg-[#f8f9fa] text-black'}`}>
+    <div className={`w-full min-h-dvh transition-colors duration-300 pb-20 ${isDark ? 'bg-[#020617] text-white' : 'bg-[#f3f7ff] text-[#081426]'}`}>
       
       {/* Mini Breadcrumb Navbar */}
       <div className="w-full max-w-[1240px] mx-auto px-6 pt-6">
@@ -75,7 +75,7 @@ export function CliPage({ theme, onNavigateHome }: CliPageProps) {
         {/* Hero Code Snippet */}
         <div className={`relative flex items-center justify-between gap-4 p-4 pl-5 rounded-2xl border w-full max-w-[480px] shadow-sm mb-8 ${
           isDark 
-            ? 'bg-[#181818] border-neutral-800 text-white' 
+            ? 'bg-[#061328] border-blue-300/10 text-white'
             : 'bg-white border-neutral-200 text-black'
         }`}>
           <div className="flex items-center gap-2.5 min-w-0">
@@ -106,7 +106,7 @@ export function CliPage({ theme, onNavigateHome }: CliPageProps) {
               Run the initialization command to detect your workspace setup and install peer dependencies (`motion/react` and `lucide-react`).
             </p>
             <div className={`relative flex items-center justify-between gap-4 p-4 pl-5 rounded-xl border font-mono ${
-              isDark ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-neutral-200 text-black'
+              isDark ? 'bg-[#061328] border-blue-300/10 text-white' : 'bg-white border-blue-950/10 text-[#081426]'
             }`}>
               <code className="text-[13.5px] font-mono">npx @subhanhq/amicro@latest init</code>
               <button 
@@ -127,7 +127,7 @@ export function CliPage({ theme, onNavigateHome }: CliPageProps) {
               Install any button component directly into your local codebase. The TSX code is written directly to your configuration folder (default `src/components/ui/`).
             </p>
             <div className={`relative flex items-center justify-between gap-4 p-4 pl-5 rounded-xl border font-mono ${
-              isDark ? 'bg-[#181818] border-neutral-800 text-white' : 'bg-white border-neutral-200 text-black'
+              isDark ? 'bg-[#061328] border-blue-300/10 text-white' : 'bg-white border-blue-950/10 text-[#081426]'
             }`}>
               <code className="text-[13.5px] font-mono">npx @subhanhq/amicro@latest add download-button</code>
               <button 
@@ -152,7 +152,7 @@ export function CliPage({ theme, onNavigateHome }: CliPageProps) {
             <div 
               key={idx}
               className={`rounded-xl border overflow-hidden transition-colors ${
-                isDark ? 'border-neutral-800 bg-[#181818]' : 'border-neutral-200 bg-white'
+                isDark ? 'border-blue-300/10 bg-[#061328]' : 'border-blue-950/10 bg-white'
               }`}
             >
               <button
@@ -193,7 +193,7 @@ export function CliPage({ theme, onNavigateHome }: CliPageProps) {
       <section className="w-full max-w-[700px] mx-auto px-6 py-8">
         <div className={`relative rounded-3xl p-8 text-center flex flex-col items-center border ${
           isDark 
-            ? 'bg-[#181818] border-neutral-800' 
+            ? 'bg-[#061328] border-blue-300/10'
             : 'bg-white border-neutral-200'
         }`}>
           <h2 className="text-[20px] font-bold tracking-tight mb-2">Ready to explore transitions?</h2>

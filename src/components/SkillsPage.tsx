@@ -99,7 +99,7 @@ export function SkillsPage({ theme, onNavigateHome }: SkillsPageProps) {
   ];
 
   return (
-    <div className={`relative w-full min-h-dvh flex flex-col font-sans antialiased transition-colors duration-300 ${isDark ? 'bg-[#121212] text-[#ffffff] selection:bg-neutral-850' : 'bg-[#f8f9fa] text-black selection:bg-neutral-200'}`}>
+    <div className={`relative w-full min-h-dvh flex flex-col font-sans antialiased transition-colors duration-300 ${isDark ? 'bg-[#020617] text-white selection:bg-blue-500/30' : 'bg-[#f3f7ff] text-[#081426] selection:bg-blue-200'}`}>
       
       {/* Breadcrumb Navbar */}
       <div className="w-full max-w-[1240px] mx-auto px-6 pt-6">
@@ -146,7 +146,7 @@ export function SkillsPage({ theme, onNavigateHome }: SkillsPageProps) {
               href="https://github.com/Subhan-code/Amicro--Micro-transitions-"
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex items-center justify-center h-[44px] w-full sm:w-auto px-[26px] rounded-full text-[13.5px] font-semibold border cursor-pointer no-underline transition-colors ${isDark ? 'bg-[#181818] border-neutral-800 text-white hover:bg-neutral-850' : 'bg-white border-neutral-200 text-black hover:bg-neutral-50 shadow-sm'}`}
+              className={`inline-flex items-center justify-center h-[44px] w-full sm:w-auto px-[26px] rounded-full text-[13.5px] font-semibold border cursor-pointer no-underline transition-colors ${isDark ? 'bg-[#061328] border-blue-300/10 text-white hover:bg-[#0b2040]' : 'bg-white border-blue-950/10 text-[#081426] hover:bg-blue-50 shadow-sm'}`}
             >
               View on GitHub
             </a>
@@ -154,7 +154,7 @@ export function SkillsPage({ theme, onNavigateHome }: SkillsPageProps) {
 
           {/* Pill Switch Controls matching Home Layout Pill */}
           <div id="skills-grid-anchor" className="flex items-center gap-3 mt-14 scroll-mt-24 w-full max-w-[400px] justify-center mx-auto px-4 sm:px-0">
-            <div className={`w-full flex items-center p-1 rounded-full border shadow-inner transition-colors duration-300 ${isDark ? 'bg-[#181818] border-white/5' : 'bg-neutral-200/50 border-neutral-300/30'}`}>
+            <div className={`w-full flex items-center p-1 rounded-full border shadow-inner transition-colors duration-300 ${isDark ? 'bg-[#061328] border-blue-300/10' : 'bg-blue-100/60 border-blue-950/10'}`}>
               <button
                 onClick={() => setActiveTab('install')}
                 className={`flex-1 flex items-center justify-center gap-2 px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors cursor-pointer border-0 whitespace-nowrap ${
@@ -190,7 +190,7 @@ export function SkillsPage({ theme, onNavigateHome }: SkillsPageProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.2 }}
-                className={`relative w-full max-w-[320px] sm:w-[320px] h-[220px] sm:h-[268px] rounded-[24px] transition-all duration-300 group ${isDark ? 'bg-[#181818] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] hover:bg-[#202020]' : 'bg-white shadow-[0_4px_20px_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.02)] border border-neutral-100/85 hover:shadow-[0_6px_24px_rgba(0,0,0,0.06)] text-black'}`}
+                className={`relative w-full max-w-[320px] sm:w-[320px] h-[220px] sm:h-[268px] rounded-[24px] transition-all duration-300 group ${isDark ? 'bg-[#061328] border border-blue-300/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] hover:bg-[#0b2040]' : 'bg-white shadow-[0_4px_20px_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.02)] border border-blue-950/10 hover:shadow-[0_6px_24px_rgba(0,0,0,0.06)] text-[#081426]'}`}
               >
                 {/* Visual code box area */}
                 <div className={`absolute left-[12px] top-[12px] right-[12px] bottom-[68px] rounded-[14px] overflow-hidden flex items-center justify-center p-4 transition-colors duration-300 ${isDark ? 'bg-[#131313]' : 'bg-[#f4f4f6]'}`}>

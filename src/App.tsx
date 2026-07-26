@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   LayoutGrid, List, LayoutTemplate, ArrowDownAZ, Copy, Sun, Moon, Github, 
   Terminal, Check, Cpu, Zap, Code, ShieldCheck, Sparkles, RefreshCw, Smartphone, 
-  ChevronRight, ChevronDown, Shield, Layers, HelpCircle, Palette, Activity, Menu, X
+  ChevronRight, ChevronDown, Shield, Layers, HelpCircle, Palette, Activity, Menu, X,
+  Search, ArrowRight
 } from 'lucide-react';
 import { buttonsData } from './data/buttons';
 import { AnimatedButton } from './components/AnimatedButton';
@@ -56,6 +57,7 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [moreDropdownOpen, setMoreDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Hash-based router
   useEffect(() => {
@@ -76,7 +78,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    fetch('https://api.github.com/repos/Subhan-code/Amicro--Micro-transitions-')
+    fetch('https://api.github.com/repos/cybereun/Amicro--Micro-transitions-')
       .then(res => res.json())
       .then(data => {
         if (data.stargazers_count !== undefined) {
@@ -133,20 +135,45 @@ export default function App() {
 
   const displayedButtons = useMemo(() => {
     let sorted = [...buttonsData];
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+    if (normalizedQuery) {
+      sorted = sorted.filter(button => button.label.toLowerCase().includes(normalizedQuery));
+    }
     if (sortBy === 'alphabetical') {
       sorted.sort((a, b) => a.label.localeCompare(b.label));
     }
     return sorted;
-  }, [sortBy]);
+  }, [sortBy, searchQuery]);
 
   const displayedCards = useMemo(() => {
     const targetCategory = catalogTab === 'cards' ? 'spreads' : 'carousels';
     let filtered = cardsData.filter(card => (card.category || 'spreads') === targetCategory);
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+    if (normalizedQuery) {
+      filtered = filtered.filter(card => (
+        card.label.toLowerCase().includes(normalizedQuery)
+        || card.description.toLowerCase().includes(normalizedQuery)
+      ));
+    }
     if (sortBy === 'alphabetical') {
       filtered.sort((a, b) => a.label.localeCompare(b.label));
     }
     return filtered;
-  }, [catalogTab, sortBy]);
+  }, [catalogTab, sortBy, searchQuery]);
+
+  const displayedLoaderGroups = useMemo(() => {
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+    if (!normalizedQuery) return loaderGroups;
+    return loaderGroups
+      .map(group => ({
+        ...group,
+        loaders: group.loaders.filter(loader => (
+          loader.name.toLowerCase().includes(normalizedQuery)
+          || loader.kebabName.toLowerCase().includes(normalizedQuery)
+        )),
+      }))
+      .filter(group => group.loaders.length > 0);
+  }, [searchQuery]);
 
   const isLightTheme = theme === 'light';
 
@@ -163,25 +190,26 @@ export default function App() {
   };
 
   return (
-    <div className={`relative w-full min-h-dvh flex flex-col font-sans antialiased transition-colors duration-300 ${theme === 'dark' ? 'dark bg-[#121212] text-[#ffffff] selection:bg-neutral-850' : 'bg-[#f8f9fa] text-black selection:bg-neutral-200'}`}>
+    <div className={`relative w-full min-h-dvh flex flex-col font-sans antialiased overflow-hidden transition-colors duration-300 ${theme === 'dark' ? 'dark bg-[#020617] text-white selection:bg-blue-500/30' : 'bg-[#f3f7ff] text-[#081426] selection:bg-blue-200'}`}>
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
+        <div className={`absolute -top-48 left-[8%] h-[420px] w-[420px] rounded-full blur-[120px] ${theme === 'dark' ? 'bg-blue-600/20' : 'bg-blue-300/35'}`} />
+        <div className={`absolute top-[30%] -right-48 h-[460px] w-[460px] rounded-full blur-[140px] ${theme === 'dark' ? 'bg-cyan-500/10' : 'bg-cyan-200/40'}`} />
+      </div>
       
       {/* Site Navbar */}
-      <header className="relative z-50 w-full pt-4 pb-4 px-6 border-b border-transparent">
+      <header className={`sticky top-0 z-50 w-full py-3 px-4 sm:px-6 border-b backdrop-blur-2xl ${theme === 'dark' ? 'bg-[#020617]/78 border-blue-400/10' : 'bg-white/78 border-blue-950/10'}`}>
         <div className="relative z-[3] flex items-center justify-between gap-4 max-w-[1240px] mx-auto">
           <div className="flex items-center gap-[34px] min-w-0">
             <button 
               onClick={() => navigateTo('home')}
               className={`inline-flex items-center gap-[4px] h-[35px] py-[5px] no-underline shrink-0 group transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.02] cursor-pointer text-left border-0 bg-transparent ${theme === 'dark' ? 'text-white' : 'text-black'}`}
             >
-              <span className={`inline-flex items-center justify-center w-[24px] h-[24px] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] origin-center group-hover:rotate-[60deg] ${theme === 'dark' ? 'text-[#ededed]' : 'text-black'}`}>
-                {/* Modern double chevron logo */}
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[20px] h-[20px] block">
-                  <path d="M7 6L14 12L7 18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-40" />
-                  <path d="M13 6L20 12L13 18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+              <span className="inline-flex items-center justify-center w-[30px] h-[30px] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] origin-center group-hover:-rotate-6 group-hover:scale-110">
+                <img src="/cybereun-icon.png" alt="" className="h-[30px] w-[30px] object-contain" />
               </span>
               <span className="text-[16px] font-bold leading-none tracking-[-0.019em] ml-1">
-                <span>Amicro</span>
+                <span className="tracking-[-0.03em]">CYBEREUN</span>
+                <span className={`ml-2 text-[10px] font-semibold tracking-[0.16em] ${theme === 'dark' ? 'text-blue-300/70' : 'text-blue-700/70'}`}>MOTION LAB</span>
               </span>
             </button>
             <nav className="hidden sm:flex items-center gap-[8px]">
@@ -221,7 +249,7 @@ export default function App() {
           {/* Navbar Actions with Theme Toggle at the far right corner */}
           <div className="flex items-center gap-[8px]">
             <a 
-              href="https://github.com/Subhan-code/Amicro--Micro-transitions-" 
+              href="https://github.com/cybereun/Amicro--Micro-transitions-"
               target="_blank" 
               rel="noopener noreferrer" 
               className={`inline-flex items-center justify-center gap-1.5 h-[36px] px-[13px] rounded-full font-sans text-[13px] font-medium leading-[16px] no-underline transition-colors duration-150 group ${theme === 'dark' ? 'bg-[rgba(255,255,255,0.07)] hover:bg-[rgba(255,255,255,0.1)] text-[rgba(237,237,237,0.6)] hover:text-[#ededed]' : 'bg-neutral-200/80 hover:bg-neutral-300/80 text-black hover:text-black'}`}
@@ -232,9 +260,10 @@ export default function App() {
               <span className="inline-block">{stars !== null ? stars : 'Star'}</span>
             </a>
             <a 
-              href="https://x.com/SubhanHQ" 
+              href="https://github.com/cybereun"
               target="_blank" 
               rel="noopener noreferrer" 
+              aria-label="Visit cybereun on GitHub"
               className={`hidden sm:inline-flex items-center justify-center w-[36px] h-[36px] rounded-full transition-colors duration-150 ${theme === 'dark' ? 'bg-[rgba(255,255,255,0.07)] hover:bg-[rgba(255,255,255,0.1)] text-[rgba(237,237,237,0.6)] hover:text-[#ededed]' : 'bg-neutral-200/80 hover:bg-neutral-300/80 text-black hover:text-black'}`}
             >
               <svg viewBox="0 0 16 17" fill="currentColor" className="w-[16px] h-[17px] block">
@@ -345,19 +374,25 @@ export default function App() {
             {/* Main Content */}
             <div className="relative z-10 flex-1 w-full max-w-[1240px] mx-auto px-6 flex flex-col items-center">
               
-              <div className="mt-12 mb-16 text-center w-full flex flex-col items-center">
+              <div className={`relative mt-10 sm:mt-16 mb-12 text-center w-full flex flex-col items-center overflow-hidden rounded-[32px] sm:rounded-[44px] border px-5 py-12 sm:px-12 sm:py-16 ${theme === 'dark' ? 'bg-[#061328]/88 border-blue-300/10 shadow-[0_35px_100px_rgba(0,38,110,0.28)]' : 'bg-white/88 border-blue-950/10 shadow-[0_30px_80px_rgba(30,80,160,0.12)]'}`}>
+                <div className={`absolute inset-0 pointer-events-none ${theme === 'dark' ? 'bg-[radial-gradient(circle_at_75%_10%,rgba(37,99,235,0.24),transparent_36%)]' : 'bg-[radial-gradient(circle_at_75%_10%,rgba(59,130,246,0.14),transparent_38%)]'}`} aria-hidden="true" />
+                <div className={`relative mb-5 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[10px] font-semibold tracking-[0.15em] ${theme === 'dark' ? 'border-blue-300/20 bg-blue-400/10 text-blue-200' : 'border-blue-700/15 bg-blue-50 text-blue-700'}`}>
+                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.9)]" />
+                  CYBEREUN · INTERACTION LAB
+                </div>
                 
-                <h1 className={`text-[32px] sm:text-[46px] font-medium leading-[38px] sm:leading-[52px] tracking-[-0.01em] mb-3 font-sans transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-                  Amicro — Micro-transitions
+                <h1 className={`relative max-w-[850px] text-[42px] sm:text-[66px] lg:text-[76px] font-semibold leading-[0.98] tracking-[-0.055em] mb-5 font-sans transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-[#07162d]'}`}>
+                  Interfaces that move
+                  <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent">with intention.</span>
                 </h1>
-                <p className={`text-[14px] sm:text-[17px] leading-[20px] sm:leading-[25px] max-w-[530px] transition-colors duration-300 ${theme === 'dark' ? 'text-[#767676]' : 'text-black'}`}>
-                  A curated library of premium micro-interactions and transition components. Built with React and Motion.
+                <p className={`relative text-[15px] sm:text-[18px] leading-7 max-w-[650px] transition-colors duration-300 ${theme === 'dark' ? 'text-blue-100/60' : 'text-slate-600'}`}>
+                  React와 Motion으로 만든 마이크로 인터랙션 컬렉션입니다. 탐색하고, 직접 움직여 보고, 필요한 코드를 바로 복사하세요.
                 </p>
 
                 {/* Hero CTAs */}
                 <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
                   <motion.a 
-                    href="https://github.com/Subhan-code/Amicro--Micro-transitions-" 
+                    href="https://github.com/cybereun/Amicro--Micro-transitions-"
                     target="_blank" 
                     rel="noopener noreferrer" 
                     whileHover="hover"
@@ -369,7 +404,7 @@ export default function App() {
                         boxShadow: theme === 'dark' ? '0 10px 25px -5px rgba(255,255,255,0.1)' : '0 10px 25px -5px rgba(0,0,0,0.15)'
                       }
                     }}
-                    className={`inline-flex items-center justify-center gap-1.5 h-[36px] px-[16px] rounded-full text-[13px] font-medium no-underline transition-colors cursor-pointer border-0 ${theme === 'dark' ? 'bg-white text-black hover:bg-neutral-200' : 'bg-neutral-950 text-white hover:bg-neutral-800'}`}
+                    className="inline-flex items-center justify-center gap-2 h-[48px] px-[22px] rounded-full text-[13px] font-semibold no-underline transition-colors cursor-pointer border-0 bg-blue-500 text-white hover:bg-blue-400 shadow-[0_12px_35px_rgba(37,99,235,0.35)]"
                   >
                     <motion.div 
                       variants={{
@@ -380,7 +415,7 @@ export default function App() {
                     >
                       <Github className="w-4 h-4" />
                     </motion.div>
-                    <span>GitHub Repo</span>
+                    <span>github.com/cybereun</span>
                     {stars !== null && (
                       <span className={`text-[10.5px] px-1.5 py-0.5 rounded-full font-semibold ml-1 ${theme === 'dark' ? 'bg-black/10 text-black/70' : 'bg-white/20 text-white/90'}`}>
                         {stars}
@@ -403,7 +438,7 @@ export default function App() {
                         boxShadow: theme === 'dark' ? '0 10px 25px -5px rgba(0,0,0,0.3)' : '0 10px 25px -5px rgba(0,0,0,0.05)'
                       }
                     }}
-                    className={`inline-flex items-center justify-center h-[36px] px-[16px] rounded-full text-[13px] font-medium border cursor-pointer transition-colors ${theme === 'dark' ? 'bg-[#181818] border-neutral-800 text-white hover:bg-neutral-800' : 'bg-white border-neutral-200 text-black hover:bg-neutral-50 shadow-sm'}`}
+                    className={`inline-flex items-center justify-center h-[48px] px-[22px] rounded-full text-[13px] font-semibold border cursor-pointer transition-colors ${theme === 'dark' ? 'bg-white/[0.04] border-blue-200/15 text-blue-50 hover:bg-white/[0.08]' : 'bg-blue-50 border-blue-950/10 text-blue-950 hover:bg-blue-100'}`}
                   >
                     <motion.div
                       variants={{
@@ -414,17 +449,48 @@ export default function App() {
                     >
                       <ArrowDownAZ className="w-3 h-3" />
                     </motion.div>
-                    <span>Browse Components</span>
+                    <span>Explore the library</span>
                   </motion.button>
                 </div>
+                <div className="relative mt-10 grid w-full max-w-[760px] grid-cols-3 gap-2 sm:gap-3">
+                  {[
+                    [buttonsData.length, 'Buttons'],
+                    [cardsData.length, 'Layouts'],
+                    [loaderGroups.reduce((total, group) => total + group.loaders.length, 0), 'Loaders'],
+                  ].map(([value, label]) => (
+                    <div key={label} className={`rounded-2xl border px-3 py-4 ${theme === 'dark' ? 'border-blue-200/10 bg-blue-400/[0.06]' : 'border-blue-950/10 bg-blue-50/80'}`}>
+                      <div className={`text-[20px] sm:text-[24px] font-semibold ${theme === 'dark' ? 'text-blue-100' : 'text-blue-950'}`}>{value}</div>
+                      <div className={`mt-1 text-[9px] sm:text-[10px] uppercase tracking-[0.14em] ${theme === 'dark' ? 'text-blue-200/45' : 'text-blue-900/50'}`}>{label}</div>
+                    </div>
+                  ))}
+                </div>
                 {/* Filter and layout controls */}
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12 w-full max-w-xl mx-auto px-4 sm:px-0">                  {/* Category Switcher: Dropdown on Mobile, Pills on Desktop */}
+                <div className={`relative mt-10 flex w-full max-w-[760px] items-center gap-3 rounded-2xl border p-2.5 ${theme === 'dark' ? 'border-blue-200/10 bg-[#020a18]/70' : 'border-blue-950/10 bg-blue-50/80'}`}>
+                  <Search className={`ml-2 h-4 w-4 shrink-0 ${theme === 'dark' ? 'text-blue-300/55' : 'text-blue-800/50'}`} />
+                  <input
+                    value={searchQuery}
+                    onChange={(event) => setSearchQuery(event.target.value)}
+                    placeholder="Search buttons, layouts and loaders..."
+                    aria-label="Search the component library"
+                    className={`h-10 w-full bg-transparent px-1 text-[13px] outline-none placeholder:text-current placeholder:opacity-40 ${theme === 'dark' ? 'text-blue-50' : 'text-blue-950'}`}
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border-0 cursor-pointer ${theme === 'dark' ? 'bg-blue-400/10 text-blue-200 hover:bg-blue-400/20' : 'bg-blue-100 text-blue-800 hover:bg-blue-200'}`}
+                      aria-label="Clear search"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+                <div className="relative flex flex-col sm:flex-row items-center justify-center gap-4 mt-5 w-full max-w-4xl mx-auto px-0">                  {/* Category Switcher: Dropdown on Mobile, Pills on Desktop */}
                   <div className="relative block sm:hidden w-full max-w-[260px] mx-auto z-40">
                     <button
                       onClick={() => setDropdownOpen(!dropdownOpen)}
                       className={`w-full flex items-center justify-between px-5 py-2.5 rounded-full border text-[13px] font-semibold cursor-pointer transition-all duration-300 shadow-sm border-0 focus-visible:outline-none ${
                         theme === 'dark' 
-                          ? 'bg-[#181818] border-white/5 text-white hover:bg-[#222]' 
+                          ? 'bg-[#061328] border-blue-300/10 text-white hover:bg-[#0b2040]'
                           : 'bg-white border-neutral-200 text-black hover:bg-neutral-50'
                       }`}
                     >
@@ -448,7 +514,7 @@ export default function App() {
                             transition={{ duration: 0.15, ease: "easeOut" }}
                             className={`absolute top-full left-0 right-0 z-50 rounded-[20px] border p-1.5 shadow-xl flex flex-col gap-0.5 max-h-[300px] overflow-y-auto backdrop-blur-xl ${
                               theme === 'dark' 
-                                ? 'bg-[#181818]/95 border-white/5 text-[#ededed] shadow-black/50' 
+                                ? 'bg-[#061328]/95 border-blue-300/10 text-blue-50 shadow-black/50'
                                 : 'bg-white/95 border-neutral-200 text-black shadow-neutral-200/50'
                             }`}
                           >
@@ -492,7 +558,7 @@ export default function App() {
                   </div>
 
                   {/* Desktop Category Switcher (Pills) */}
-                  <div className={`hidden sm:flex items-center p-1 rounded-full border shadow-inner transition-colors duration-300 max-w-full overflow-x-visible ${theme === 'dark' ? 'bg-[#181818] border-white/5' : 'bg-neutral-200/50 border-neutral-300/30'}`}>
+                  <div className={`hidden sm:flex items-center p-1 rounded-full border shadow-inner transition-colors duration-300 max-w-full overflow-x-visible ${theme === 'dark' ? 'bg-[#061328] border-blue-300/10' : 'bg-blue-100/60 border-blue-950/10'}`}>
                     <div className="flex items-center gap-1.5 pr-1">
                       <button
                         onClick={() => setCatalogTab('buttons')}
@@ -561,7 +627,7 @@ export default function App() {
                                 transition={{ duration: 0.15, ease: "easeOut" }}
                                 className={`absolute top-full right-0 z-50 rounded-[20px] border p-4 shadow-xl flex flex-col gap-2 min-w-[260px] text-center select-none backdrop-blur-xl ${
                                   theme === 'dark' 
-                                    ? 'bg-[#181818]/95 border-white/5 text-[#ededed] shadow-black/40' 
+                                    ? 'bg-[#061328]/95 border-blue-300/10 text-blue-50 shadow-black/40'
                                     : 'bg-white/95 border-neutral-200 text-black shadow-neutral-200/30'
                                 }`}
                               >
@@ -587,7 +653,7 @@ export default function App() {
                   {catalogTab !== 'loaders' && (
                     <div className="flex items-center justify-center gap-3 shrink-0">
                       {/* Sort */}
-                      <div className={`flex items-center p-1 rounded-full border shadow-inner transition-colors duration-300 ${theme === 'dark' ? 'bg-[#181818] border-white/5' : 'bg-neutral-200/50 border-neutral-300/30'}`}>
+                      <div className={`flex items-center p-1 rounded-full border shadow-inner transition-colors duration-300 ${theme === 'dark' ? 'bg-[#061328] border-blue-300/10' : 'bg-blue-100/60 border-blue-950/10'}`}>
                         <button
                           onClick={() => setSortBy(sortBy === 'default' ? 'alphabetical' : 'default')}
                           className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors cursor-pointer border-0 ${
@@ -602,7 +668,7 @@ export default function App() {
                       </div>
 
                       {/* Layout */}
-                      <div className={`hidden sm:flex items-center p-1 rounded-full border shadow-inner transition-colors duration-300 ${theme === 'dark' ? 'bg-[#181818] border-white/5' : 'bg-neutral-200/50 border-neutral-300/30'}`}>
+                      <div className={`hidden sm:flex items-center p-1 rounded-full border shadow-inner transition-colors duration-300 ${theme === 'dark' ? 'bg-[#061328] border-blue-300/10' : 'bg-blue-100/60 border-blue-950/10'}`}>
                         <button
                           onClick={() => setLayout('list')}
                           className={`p-1.5 rounded-full transition-colors cursor-pointer border-0 ${
@@ -671,8 +737,8 @@ export default function App() {
                         className={`${layout === 'list' ? 'w-full' : ''} ${layout === 'grid' ? 'w-full flex justify-center sm:w-auto sm:block' : ''}`}
                       >
                         {layout === 'grid' ? (
-                          <div className={`relative w-full max-w-[320px] sm:w-[320px] h-[220px] sm:h-[268px] rounded-[24px] transition-all duration-300 group ${theme === 'dark' ? 'bg-[#181818] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] hover:bg-[#202020]' : 'bg-white shadow-[0_4px_20px_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.02)] border border-neutral-100/85 hover:shadow-[0_6px_24px_rgba(0,0,0,0.06)] text-black'}`}>
-                            <div className={`absolute left-[12px] top-[12px] right-[12px] bottom-[68px] rounded-[14px] overflow-hidden flex items-center justify-center transition-colors duration-300 ${theme === 'dark' ? 'bg-[#131313]' : 'bg-[#f4f4f6]'}`}>
+                          <div className={`relative w-full max-w-[320px] sm:w-[320px] h-[220px] sm:h-[268px] rounded-[24px] border transition-all duration-300 group ${theme === 'dark' ? 'bg-[#061328] border-blue-300/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] hover:bg-[#0b2040]' : 'bg-white shadow-[0_4px_20px_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.02)] border-blue-950/10 hover:shadow-[0_6px_24px_rgba(0,0,0,0.06)] text-[#081426]'}`}>
+                            <div className={`absolute left-[12px] top-[12px] right-[12px] bottom-[68px] rounded-[14px] overflow-hidden flex items-center justify-center transition-colors duration-300 ${theme === 'dark' ? 'bg-[#020a18]' : 'bg-blue-50'}`}>
                               <div className={`absolute inset-0 rounded-[14px] pointer-events-none z-10 ${theme === 'dark' ? 'shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]' : 'shadow-[inset_0_0_0_1px_rgba(0,0,0,0.03)]'}`} />
                               <AnimatedButton config={button} layoutMode={layout} theme={theme} />
                             </div>
@@ -696,7 +762,7 @@ export default function App() {
                     ))
                   ) : catalogTab === 'loaders' ? (
                     <div className="w-full flex flex-col gap-16 max-w-[1060px] mx-auto text-left">
-                      {loaderGroups.map((group, groupIdx) => {
+                      {displayedLoaderGroups.map((group, groupIdx) => {
                         const isPhysicsGroup = group.title === 'Physics & Simulation';
                         return (
                           <div key={groupIdx} className="flex flex-col gap-6 w-full">
@@ -718,7 +784,7 @@ export default function App() {
                                       key={loaderIdx} 
                                       className={`relative group rounded-[24px] flex flex-col items-center justify-center p-6 md:p-8 transition-all duration-300 border h-64 md:h-80 w-full overflow-hidden ${
                                         theme === 'dark' 
-                                          ? 'bg-[#181818] border-white/5 hover:bg-[#1f1f1f] shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]' 
+                                          ? 'bg-[#061328] border-blue-300/10 hover:bg-[#0b2040] shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]'
                                           : 'bg-white border-neutral-100 hover:shadow-[0_4px_20px_rgba(0,0,0,0.03)]'
                                       }`}
                                     >
@@ -760,7 +826,7 @@ export default function App() {
                                       key={loaderIdx} 
                                       className={`relative group aspect-square rounded-2xl flex flex-col items-center justify-center p-4 transition-all duration-300 border ${
                                         theme === 'dark' 
-                                          ? 'bg-[#181818] border-white/5 hover:bg-[#1f1f1f] shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]' 
+                                          ? 'bg-[#061328] border-blue-300/10 hover:bg-[#0b2040] shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]'
                                           : 'bg-white border-neutral-100 hover:shadow-[0_4px_12px_rgba(0,0,0,0.03)] hover:border-neutral-200/50'
                                       }`}
                                     >
@@ -808,9 +874,9 @@ export default function App() {
                           <div 
                             onMouseEnter={() => setHoveredCardId(card.id)}
                             onMouseLeave={() => setHoveredCardId(null)}
-                            className={`relative w-full max-w-[480px] sm:w-[480px] h-[280px] sm:h-[380px] rounded-[24px] transition-all duration-300 group ${theme === 'dark' ? 'bg-[#181818] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] hover:bg-[#202020]' : 'bg-white shadow-[0_4px_20px_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.02)] border border-neutral-100/85 hover:shadow-[0_6px_24px_rgba(0,0,0,0.06)] text-black'}`}
+                            className={`relative w-full max-w-[480px] sm:w-[480px] h-[280px] sm:h-[380px] rounded-[24px] border transition-all duration-300 group ${theme === 'dark' ? 'bg-[#061328] border-blue-300/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] hover:bg-[#0b2040]' : 'bg-white shadow-[0_4px_20px_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.02)] border-blue-950/10 hover:shadow-[0_6px_24px_rgba(0,0,0,0.06)] text-[#081426]'}`}
                           >
-                            <div className={`absolute left-[12px] top-[12px] right-[12px] h-[200px] sm:h-[300px] rounded-[14px] flex items-center justify-center transition-colors duration-300 ${theme === 'dark' ? 'bg-[#131313]' : 'bg-[#f4f4f6]'}`}>
+                            <div className={`absolute left-[12px] top-[12px] right-[12px] h-[200px] sm:h-[300px] rounded-[14px] flex items-center justify-center transition-colors duration-300 ${theme === 'dark' ? 'bg-[#020a18]' : 'bg-blue-50'}`}>
                               <div className={`absolute inset-0 rounded-[14px] pointer-events-none z-10 ${theme === 'dark' ? 'shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]' : 'shadow-[inset_0_0_0_1px_rgba(0,0,0,0.03)]'}`} />
                               {card.interactionType === 'card-arc-5' && <CardArc5 hovered={hoveredCardId === card.id} className="scale-[0.55] sm:scale-[1.2] origin-center" />}
                               {card.interactionType === 'card-arc-7' && <CardArc7 hovered={hoveredCardId === card.id} className="scale-[0.5] sm:scale-[1.2] origin-center" />}
@@ -843,9 +909,9 @@ export default function App() {
                           </div>
                         ) : (
                           // List view for cards
-                          <div className={`w-full max-w-[500px] flex items-center justify-between p-4 rounded-xl border transition-colors ${theme === 'dark' ? 'bg-[#181818] border-neutral-850 text-white' : 'bg-white border-neutral-200 shadow-sm text-black'}`}>
+                          <div className={`w-full max-w-[500px] flex items-center justify-between p-4 rounded-xl border transition-colors ${theme === 'dark' ? 'bg-[#061328] border-blue-300/10 text-white' : 'bg-white border-blue-950/10 shadow-sm text-[#081426]'}`}>
                             <div className="flex items-center gap-4">
-                              <div className={`w-12 h-12 rounded-lg flex items-center justify-center shrink-0 ${theme === 'dark' ? 'bg-[#131313]' : 'bg-neutral-100'}`}>
+                              <div className={`w-12 h-12 rounded-lg flex items-center justify-center shrink-0 ${theme === 'dark' ? 'bg-[#020a18]' : 'bg-blue-50'}`}>
                                 <LayoutTemplate className="w-5 h-5 text-neutral-400" />
                               </div>
                               <div>
@@ -865,27 +931,39 @@ export default function App() {
                     ))
                   )}
                 </AnimatePresence>
+                {searchQuery && (
+                  (catalogTab === 'buttons' && displayedButtons.length === 0)
+                  || ((catalogTab === 'cards' || catalogTab === 'carousels') && displayedCards.length === 0)
+                  || (catalogTab === 'loaders' && displayedLoaderGroups.length === 0)
+                ) && (
+                  <div className={`col-span-full flex min-h-[220px] w-full flex-col items-center justify-center rounded-[28px] border border-dashed px-6 text-center ${theme === 'dark' ? 'border-blue-300/15 bg-blue-400/[0.04]' : 'border-blue-950/15 bg-white/60'}`}>
+                    <Search className={`mb-4 h-7 w-7 ${theme === 'dark' ? 'text-blue-300/45' : 'text-blue-700/45'}`} />
+                    <p className="m-0 text-[15px] font-semibold">No motion components found</p>
+                    <button onClick={() => setSearchQuery('')} className="mt-3 cursor-pointer border-0 bg-transparent text-[13px] font-semibold text-blue-400 hover:text-blue-300">Clear search</button>
+                  </div>
+                )}
               </div>
 
 
 
             </div>
 
-            {/* Recommended course CTA */}
-            <aside className="relative z-10 w-full max-w-[720px] mx-auto mt-[20px] mb-[70px] flex items-start sm:items-center gap-2.5 sm:gap-[24px] px-6 sm:px-0">
-              <span className={`w-[2px] h-[78px] rounded-[1px] shrink-0 transition-colors ${theme === 'dark' ? 'bg-white/[0.14]' : 'bg-neutral-300'}`} aria-hidden="true" />
+            {/* Creator CTA */}
+            <aside className={`relative z-10 w-full max-w-[900px] mx-auto mt-8 mb-[70px] flex items-start sm:items-center gap-4 sm:gap-6 p-6 rounded-[28px] border ${theme === 'dark' ? 'bg-[#061328] border-blue-200/10' : 'bg-white border-blue-950/10 shadow-sm'}`}>
+              <span className="w-[3px] h-[82px] rounded-full shrink-0 bg-gradient-to-b from-blue-400 to-cyan-400" aria-hidden="true" />
               <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-[24px]">
                 <div className="flex-1 min-w-0 flex flex-col gap-[10px] max-w-[432px]">
                   <p className={`m-0 text-[14px] leading-[1.4] transition-colors ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-                    If you want to use beautiful ready-to-use UI components, I highly recommend <a href="https://oxygen-ui.vercel.app" target="_blank" rel="noopener noreferrer" className={`underline underline-offset-2 transition-colors duration-180 ${theme === 'dark' ? 'text-white decoration-white/50 hover:decoration-white' : 'text-black decoration-black/50 hover:decoration-black'}`}>Oxygen UI</a>.
+                    Small details create memorable interfaces. Explore the source, remix the motion, and build something distinctly yours.
                   </p>
                   <p className="m-0 flex flex-col text-[13px] leading-[18px]">
-                    <a href="https://x.com/SubhanHQ" target="_blank" rel="noopener noreferrer" className={`hover:underline no-underline font-medium ${theme === 'dark' ? 'text-[#e9e9e9]' : 'text-black'}`}>Syed Subhan</a>
-                    <span className={`transition-colors ${theme === 'dark' ? 'text-[#767676]' : 'text-black opacity-70'}`}>Creator of Oxygen UI</span>
+                    <a href="https://github.com/cybereun" target="_blank" rel="noopener noreferrer" className={`hover:underline no-underline font-medium ${theme === 'dark' ? 'text-blue-200' : 'text-blue-800'}`}>@cybereun</a>
+                    <span className={`transition-colors ${theme === 'dark' ? 'text-blue-200/45' : 'text-blue-950/55'}`}>Designing useful software with intentional motion</span>
                   </p>
                 </div>
-                <a className={`inline-flex items-center gap-[4px] h-[40px] px-[16px] rounded-[24px] font-medium text-[13px] leading-[13px] no-underline transition-colors duration-200 shrink-0 sm:ml-auto group ${theme === 'dark' ? 'bg-[#ffffff] text-[#0d0d0d] hover:bg-[#e8e8e8]' : 'bg-neutral-950 text-white hover:bg-neutral-800'}`} href="https://oxygen-ui.vercel.app" target="_blank" rel="noopener noreferrer">
-                  <span>Get Oxygen UI</span>
+                <a className="inline-flex items-center gap-2 h-[42px] px-[18px] rounded-full font-semibold text-[13px] leading-[13px] no-underline transition-colors duration-200 shrink-0 sm:ml-auto group bg-blue-500 text-white hover:bg-blue-400" href="https://github.com/cybereun" target="_blank" rel="noopener noreferrer">
+                  <Github className="h-4 w-4" />
+                  <span>View GitHub</span>
                   <span className="inline-flex w-[16px] h-[16px]">
                     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
                       <path d="M7.5 2.5H4.5C3.39543 2.5 2.5 3.39543 2.5 4.5V11.5C2.5 12.6046 3.39543 13.5 4.5 13.5H11.5C12.6046 13.5 13.5 12.6046 13.5 11.5V8.5"></path>
@@ -901,11 +979,11 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <footer className="relative z-10 w-full text-center pb-[24px] text-[13px] leading-[14px]">
-        <span className={theme === 'dark' ? 'text-[#8f8f8f]' : 'text-black opacity-60'}>Created by</span>
-        <a className={`no-underline ml-[4px] font-medium transition-colors ${theme === 'dark' ? 'text-[#e9e9e9] hover:text-white' : 'text-black hover:text-black'}`} href="https://x.com/SubhanHQ" target="_blank" rel="noopener noreferrer">Syed Subhan</a>
-        <span className={`mx-1 ${theme === 'dark' ? 'text-[#8f8f8f]' : 'text-black opacity-60'}`}>·</span>
-        <a className={`no-underline transition-colors ${theme === 'dark' ? 'text-[#e9e9e9] hover:text-white' : 'text-black hover:text-black'}`} href="https://github.com/Subhan-code/Amicro--Micro-transitions-#readme">Terms & License</a>
+      <footer className="relative z-10 w-full text-center pb-[28px] text-[12px] leading-5">
+        <span className={theme === 'dark' ? 'text-blue-200/45' : 'text-blue-950/55'}>Remixed by </span>
+        <a className={`no-underline font-semibold transition-colors ${theme === 'dark' ? 'text-blue-200 hover:text-white' : 'text-blue-800 hover:text-blue-950'}`} href="https://github.com/cybereun" target="_blank" rel="noopener noreferrer">cybereun</a>
+        <span className={`mx-2 ${theme === 'dark' ? 'text-blue-200/30' : 'text-blue-950/30'}`}>·</span>
+        <span className={theme === 'dark' ? 'text-blue-200/45' : 'text-blue-950/55'}>Original work © 2026 Syed Subhan Uddin · MIT License</span>
       </footer>
 
       {/* Copy-Success Toast Alert */}
@@ -918,7 +996,7 @@ export default function App() {
               exit={{ opacity: 0, y: 20, scale: 0.9 }}
               className={`px-4 py-3 rounded-xl border flex items-center gap-2.5 text-[13px] font-medium shadow-lg pointer-events-auto ${
                 theme === 'dark' 
-                  ? 'bg-[#181818] border-neutral-800 text-white shadow-black/20' 
+                  ? 'bg-[#061328] border-blue-300/10 text-white shadow-black/20'
                   : 'bg-white border-neutral-200 text-black shadow-neutral-200/50'
               }`}
             >
