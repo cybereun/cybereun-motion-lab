@@ -16,6 +16,7 @@ import { SkillsPage } from './components/SkillsPage';
 import { loaderGroups } from './data/loaders';
 import { loadersCode } from './utils/loadersCode';
 import { InViewRender } from './components/InViewRender';
+import DotField from './components/DotField';
 
 // Card layouts imports
 import { cardsData, CardConfig } from './data/cards';
@@ -386,23 +387,48 @@ export default function App() {
             {/* Main Content */}
             <div className="relative z-10 flex-1 w-full max-w-[1240px] mx-auto px-6 flex flex-col items-center">
               
-              <div className={`relative mt-10 sm:mt-16 mb-12 text-center w-full flex flex-col items-center rounded-[32px] sm:rounded-[44px] border px-5 py-12 sm:px-12 sm:py-16 ${theme === 'dark' ? 'bg-[#061328]/88 border-blue-300/10 shadow-[0_35px_100px_rgba(0,38,110,0.28)]' : 'bg-white/88 border-blue-950/10 shadow-[0_30px_80px_rgba(30,80,160,0.12)]'}`}>
-                <div className={`absolute inset-0 pointer-events-none rounded-[32px] sm:rounded-[44px] ${theme === 'dark' ? 'bg-[radial-gradient(circle_at_75%_10%,rgba(37,99,235,0.24),transparent_36%)]' : 'bg-[radial-gradient(circle_at_75%_10%,rgba(59,130,246,0.14),transparent_38%)]'}`} aria-hidden="true" />
-                <div className={`relative mb-5 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[10px] font-semibold tracking-[0.15em] ${theme === 'dark' ? 'border-blue-300/20 bg-blue-400/10 text-blue-200' : 'border-blue-700/15 bg-blue-50 text-blue-700'}`}>
+              <section className={`relative mt-6 sm:mt-10 mb-12 text-center w-full min-h-[690px] sm:min-h-[760px] overflow-hidden flex flex-col items-center justify-center rounded-[32px] sm:rounded-[48px] border px-5 py-14 sm:px-12 sm:py-20 ${theme === 'dark' ? 'bg-[#020a1c] border-blue-300/15 shadow-[0_40px_120px_rgba(0,38,110,0.38)]' : 'bg-[#f7faff] border-blue-950/10 shadow-[0_35px_90px_rgba(30,80,160,0.16)]'}`}>
+                <DotField
+                  data-testid="hero-dot-field"
+                  aria-label="Interactive dot field background"
+                  role="img"
+                  dotRadius={1.8}
+                  dotSpacing={16}
+                  cursorRadius={430}
+                  bulgeStrength={72}
+                  glowRadius={210}
+                  sparkle
+                  waveAmplitude={1.4}
+                  gradientFrom={theme === 'dark' ? 'rgba(96, 165, 250, 0.5)' : 'rgba(37, 99, 235, 0.28)'}
+                  gradientTo={theme === 'dark' ? 'rgba(34, 211, 238, 0.2)' : 'rgba(8, 145, 178, 0.2)'}
+                  glowColor={theme === 'dark' ? 'rgba(37, 99, 235, 0.32)' : 'rgba(147, 197, 253, 0.38)'}
+                  className="absolute inset-0 z-0"
+                />
+                <div className={`absolute inset-0 z-[1] pointer-events-none ${theme === 'dark' ? 'bg-[radial-gradient(circle_at_center,rgba(2,10,28,0.04)_0%,rgba(2,10,28,0.3)_58%,rgba(2,10,28,0.88)_100%)]' : 'bg-[radial-gradient(circle_at_center,rgba(247,250,255,0.12)_0%,rgba(247,250,255,0.36)_58%,rgba(247,250,255,0.9)_100%)]'}`} aria-hidden="true" />
+                <div className={`absolute left-1/2 top-[-180px] z-[1] h-[420px] w-[620px] -translate-x-1/2 rounded-full blur-[110px] pointer-events-none ${theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-300/30'}`} aria-hidden="true" />
+                <div className={`absolute inset-x-6 top-6 z-[2] flex items-center justify-between text-[9px] font-semibold uppercase tracking-[0.16em] sm:inset-x-9 sm:top-8 ${theme === 'dark' ? 'text-blue-200/40' : 'text-blue-900/45'}`} aria-hidden="true">
+                  <span>Creative engineering</span>
+                  <span className="hidden sm:inline-flex items-center gap-2">
+                    <span className="h-1 w-1 rounded-full bg-cyan-400" />
+                    Move your cursor
+                  </span>
+                </div>
+
+                <div className={`relative z-[3] mb-5 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[10px] font-semibold tracking-[0.15em] backdrop-blur-xl ${theme === 'dark' ? 'border-blue-300/20 bg-blue-400/10 text-blue-200' : 'border-blue-700/15 bg-white/60 text-blue-700'}`}>
                   <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.9)]" />
                   CYBEREUN · INTERACTION LAB
                 </div>
                 
-                <h1 className={`relative max-w-[850px] text-[42px] sm:text-[66px] lg:text-[76px] font-semibold leading-[0.98] tracking-[-0.055em] mb-5 font-sans transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-[#07162d]'}`}>
+                <h1 className={`relative z-[3] max-w-[900px] text-[44px] sm:text-[72px] lg:text-[86px] font-semibold leading-[0.94] tracking-[-0.06em] mb-6 font-sans transition-colors duration-300 ${theme === 'dark' ? 'text-white drop-shadow-[0_8px_34px_rgba(0,0,0,0.45)]' : 'text-[#07162d]'}`}>
                   Interfaces that move
-                  <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent">with intention.</span>
+                  <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent">with intention.</span>
                 </h1>
-                <p className={`relative text-[15px] sm:text-[18px] leading-7 max-w-[650px] transition-colors duration-300 ${theme === 'dark' ? 'text-blue-100/60' : 'text-slate-600'}`}>
+                <p className={`relative z-[3] text-[15px] sm:text-[18px] leading-7 max-w-[650px] transition-colors duration-300 ${theme === 'dark' ? 'text-blue-100/65' : 'text-slate-600'}`}>
                   React와 Motion으로 만든 마이크로 인터랙션 컬렉션입니다. 탐색하고, 직접 움직여 보고, 필요한 코드를 바로 복사하세요.
                 </p>
 
                 {/* Hero CTAs */}
-                <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
+                <div className="relative z-[3] flex flex-wrap items-center justify-center gap-3 mt-8">
                   <motion.a 
                     href="https://github.com/cybereun/cybereun-motion-lab"
                     target="_blank" 
@@ -464,20 +490,20 @@ export default function App() {
                     <span>Explore the library</span>
                   </motion.button>
                 </div>
-                <div className="relative mt-10 grid w-full max-w-[760px] grid-cols-3 gap-2 sm:gap-3">
+                <div className="relative z-[3] mt-12 grid w-full max-w-[760px] grid-cols-3 gap-2 sm:gap-3">
                   {[
                     [buttonsData.length, 'Buttons'],
                     [cardsData.length, 'Layouts'],
                     [loaderGroups.reduce((total, group) => total + group.loaders.length, 0), 'Loaders'],
                   ].map(([value, label]) => (
-                    <div key={label} className={`rounded-2xl border px-3 py-4 ${theme === 'dark' ? 'border-blue-200/10 bg-blue-400/[0.06]' : 'border-blue-950/10 bg-blue-50/80'}`}>
+                    <div key={label} className={`rounded-2xl border px-3 py-4 backdrop-blur-xl ${theme === 'dark' ? 'border-blue-200/10 bg-[#04112b]/65' : 'border-blue-950/10 bg-white/65'}`}>
                       <div className={`text-[20px] sm:text-[24px] font-semibold ${theme === 'dark' ? 'text-blue-100' : 'text-blue-950'}`}>{value}</div>
                       <div className={`mt-1 text-[9px] sm:text-[10px] uppercase tracking-[0.14em] ${theme === 'dark' ? 'text-blue-200/45' : 'text-blue-900/50'}`}>{label}</div>
                     </div>
                   ))}
                 </div>
                 {/* Filter and layout controls */}
-                <div className={`relative mt-10 flex w-full max-w-[760px] items-center gap-3 rounded-2xl border p-2.5 ${theme === 'dark' ? 'border-blue-200/10 bg-[#020a18]/70' : 'border-blue-950/10 bg-blue-50/80'}`}>
+                <div className={`relative z-[3] mt-8 flex w-full max-w-[760px] items-center gap-3 rounded-2xl border p-2.5 backdrop-blur-xl ${theme === 'dark' ? 'border-blue-200/10 bg-[#020a18]/78' : 'border-blue-950/10 bg-white/75'}`}>
                   <Search className={`ml-2 h-4 w-4 shrink-0 ${theme === 'dark' ? 'text-blue-300/55' : 'text-blue-800/50'}`} />
                   <input
                     value={searchQuery}
@@ -496,7 +522,7 @@ export default function App() {
                     </button>
                   )}
                 </div>
-                <div className="relative flex flex-col sm:flex-row items-center justify-center gap-4 mt-5 w-full max-w-4xl mx-auto px-0">                  {/* Category Switcher: Dropdown on Mobile, Pills on Desktop */}
+                <div className="relative z-[4] flex flex-col sm:flex-row items-center justify-center gap-4 mt-5 w-full max-w-4xl mx-auto px-0">                  {/* Category Switcher: Dropdown on Mobile, Pills on Desktop */}
                   <div className="relative block sm:hidden w-full max-w-[260px] mx-auto z-40">
                     <button
                       onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -718,7 +744,7 @@ export default function App() {
                     </div>
                   )}
                 </div>
-              </div>
+              </section>
 
               <div 
                 id="component-grid"
