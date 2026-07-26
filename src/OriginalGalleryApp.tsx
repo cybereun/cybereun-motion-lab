@@ -48,15 +48,16 @@ const tabLabels: Record<CatalogTabType, string> = {
 
 type AppProps = {
   initiallyEntered?: boolean;
+  onPageChange?: (page: PageMode) => void;
 };
 
-export default function App({ initiallyEntered = false }: AppProps) {
+export default function App({ initiallyEntered = false, onPageChange }: AppProps) {
   const [hasEntered, setHasEntered] = useState(initiallyEntered);
 
   return (
     <AnimatePresence mode="wait">
       {hasEntered ? (
-        <MotionLab />
+        <MotionLab onPageChange={onPageChange} />
       ) : (
         <IntroPage
           onEnter={() => {
@@ -69,7 +70,7 @@ export default function App({ initiallyEntered = false }: AppProps) {
   );
 }
 
-function MotionLab() {
+function MotionLab({ onPageChange }: { onPageChange?: (page: PageMode) => void }) {
   const [layout, setLayout] = useState<LayoutMode>('grid');
   const [sortBy, setSortBy] = useState<SortMode>('default');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
@@ -100,6 +101,10 @@ function MotionLab() {
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
+
+  useEffect(() => {
+    onPageChange?.(currentPage);
+  }, [currentPage, onPageChange]);
 
   useEffect(() => {
     fetch('https://api.github.com/repos/cybereun/cybereun-motion-lab')

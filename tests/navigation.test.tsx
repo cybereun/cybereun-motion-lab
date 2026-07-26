@@ -37,6 +37,18 @@ test('the entered experience defaults to the preserved original overview', () =>
   assert.doesNotMatch(html, /aria-label="Motion Gallery Studio"/);
 });
 
+test('the library view switcher is limited to component pages', () => {
+  const appSource = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8');
+  const overviewSource = readFileSync(
+    new URL('../src/OriginalGalleryApp.tsx', import.meta.url),
+    'utf8',
+  );
+
+  assert.match(appSource, /libraryView === 'detail' \|\| overviewPage === 'home'/);
+  assert.match(appSource, /onPageChange=\{setOverviewPage\}/);
+  assert.match(overviewSource, /onPageChange\?\.\(currentPage\)/);
+});
+
 test('the detail experience remains available as Motion Gallery Studio', () => {
   const html = renderToStaticMarkup(<MotionWorkspace onExit={() => undefined} />);
 
