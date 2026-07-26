@@ -190,7 +190,7 @@ export default function App() {
   };
 
   return (
-    <div className={`relative w-full min-h-dvh flex flex-col font-sans antialiased overflow-hidden transition-colors duration-300 ${theme === 'dark' ? 'dark bg-[#020617] text-white selection:bg-blue-500/30' : 'bg-[#f3f7ff] text-[#081426] selection:bg-blue-200'}`}>
+    <div className={`relative w-full min-h-dvh flex flex-col font-sans antialiased overflow-x-hidden transition-colors duration-300 ${theme === 'dark' ? 'dark bg-[#020617] text-white selection:bg-blue-500/30' : 'bg-[#f3f7ff] text-[#081426] selection:bg-blue-200'}`}>
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
         <div className={`absolute -top-48 left-[8%] h-[420px] w-[420px] rounded-full blur-[120px] ${theme === 'dark' ? 'bg-blue-600/20' : 'bg-blue-300/35'}`} />
         <div className={`absolute top-[30%] -right-48 h-[460px] w-[460px] rounded-full blur-[140px] ${theme === 'dark' ? 'bg-cyan-500/10' : 'bg-cyan-200/40'}`} />
@@ -374,8 +374,8 @@ export default function App() {
             {/* Main Content */}
             <div className="relative z-10 flex-1 w-full max-w-[1240px] mx-auto px-6 flex flex-col items-center">
               
-              <div className={`relative mt-10 sm:mt-16 mb-12 text-center w-full flex flex-col items-center overflow-hidden rounded-[32px] sm:rounded-[44px] border px-5 py-12 sm:px-12 sm:py-16 ${theme === 'dark' ? 'bg-[#061328]/88 border-blue-300/10 shadow-[0_35px_100px_rgba(0,38,110,0.28)]' : 'bg-white/88 border-blue-950/10 shadow-[0_30px_80px_rgba(30,80,160,0.12)]'}`}>
-                <div className={`absolute inset-0 pointer-events-none ${theme === 'dark' ? 'bg-[radial-gradient(circle_at_75%_10%,rgba(37,99,235,0.24),transparent_36%)]' : 'bg-[radial-gradient(circle_at_75%_10%,rgba(59,130,246,0.14),transparent_38%)]'}`} aria-hidden="true" />
+              <div className={`relative mt-10 sm:mt-16 mb-12 text-center w-full flex flex-col items-center rounded-[32px] sm:rounded-[44px] border px-5 py-12 sm:px-12 sm:py-16 ${theme === 'dark' ? 'bg-[#061328]/88 border-blue-300/10 shadow-[0_35px_100px_rgba(0,38,110,0.28)]' : 'bg-white/88 border-blue-950/10 shadow-[0_30px_80px_rgba(30,80,160,0.12)]'}`}>
+                <div className={`absolute inset-0 pointer-events-none rounded-[32px] sm:rounded-[44px] ${theme === 'dark' ? 'bg-[radial-gradient(circle_at_75%_10%,rgba(37,99,235,0.24),transparent_36%)]' : 'bg-[radial-gradient(circle_at_75%_10%,rgba(59,130,246,0.14),transparent_38%)]'}`} aria-hidden="true" />
                 <div className={`relative mb-5 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[10px] font-semibold tracking-[0.15em] ${theme === 'dark' ? 'border-blue-300/20 bg-blue-400/10 text-blue-200' : 'border-blue-700/15 bg-blue-50 text-blue-700'}`}>
                   <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.9)]" />
                   CYBEREUN · INTERACTION LAB
@@ -504,7 +504,7 @@ export default function App() {
                       {dropdownOpen && (
                         <>
                           <div 
-                            className="fixed inset-0 z-40 bg-transparent" 
+                            className="fixed inset-0 z-0 bg-transparent"
                             onClick={() => setDropdownOpen(false)} 
                           />
                           <motion.div
@@ -512,7 +512,7 @@ export default function App() {
                             animate={{ opacity: 1, y: 6, scale: 1 }}
                             exit={{ opacity: 0, y: -8, scale: 0.96 }}
                             transition={{ duration: 0.15, ease: "easeOut" }}
-                            className={`absolute top-full left-0 right-0 z-50 rounded-[20px] border p-1.5 shadow-xl flex flex-col gap-0.5 max-h-[300px] overflow-y-auto backdrop-blur-xl ${
+                            className={`absolute top-full left-0 right-0 z-[60] rounded-[20px] border p-1.5 shadow-xl flex flex-col gap-0.5 max-h-[min(300px,calc(100dvh-120px))] overflow-y-auto overscroll-contain backdrop-blur-xl ${
                               theme === 'dark' 
                                 ? 'bg-[#061328]/95 border-blue-300/10 text-blue-50 shadow-black/50'
                                 : 'bg-white/95 border-neutral-200 text-black shadow-neutral-200/50'
@@ -617,7 +617,7 @@ export default function App() {
                           {moreDropdownOpen && (
                             <>
                               <div 
-                                className="fixed inset-0 z-40 bg-transparent" 
+                                className="fixed inset-0 z-0 bg-transparent"
                                 onClick={() => setMoreDropdownOpen(false)} 
                               />
                               <motion.div
@@ -625,7 +625,7 @@ export default function App() {
                                 animate={{ opacity: 1, y: 6, scale: 1 }}
                                 exit={{ opacity: 0, y: -8, scale: 0.96 }}
                                 transition={{ duration: 0.15, ease: "easeOut" }}
-                                className={`absolute top-full right-0 z-50 rounded-[20px] border p-4 shadow-xl flex flex-col gap-2 min-w-[260px] text-center select-none backdrop-blur-xl ${
+                                className={`absolute top-full right-0 z-[60] rounded-[20px] border p-4 shadow-xl flex flex-col gap-2 min-w-[260px] text-center select-none backdrop-blur-xl ${
                                   theme === 'dark' 
                                     ? 'bg-[#061328]/95 border-blue-300/10 text-blue-50 shadow-black/40'
                                     : 'bg-white/95 border-neutral-200 text-black shadow-neutral-200/30'

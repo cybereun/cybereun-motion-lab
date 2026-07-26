@@ -35,19 +35,8 @@ export function FocusBlur({
         const isAnyHovered = hoveredIndex !== null;
         const isInactive = isAnyHovered && !isHovered;
 
-        return (
-          <a
-            key={index}
-            href={item.href || '#'}
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
-            className="relative font-semibold text-lg sm:text-2xl no-underline transition-all duration-300 select-none outline-none"
-            style={{
-              filter: isInactive ? `blur(${blurAmount}px)` : 'none',
-              opacity: isInactive ? opacityAmount : 1,
-              color: isHovered ? 'var(--color-blue-500, #3b82f6)' : 'inherit'
-            }}
-          >
+        const content = (
+          <>
             <span className="relative z-10">{item.label}</span>
             
             {/* Focus brackets on hover */}
@@ -65,7 +54,28 @@ export function FocusBlur({
                 )}
               </AnimatePresence>
             )}
+          </>
+        );
+
+        const interactionProps = {
+          onMouseEnter: () => setHoveredIndex(index),
+          onMouseLeave: () => setHoveredIndex(null),
+          className: "relative font-semibold text-lg sm:text-2xl no-underline transition-all duration-300 select-none outline-none border-0 bg-transparent p-0 cursor-pointer",
+          style: {
+            filter: isInactive ? `blur(${blurAmount}px)` : 'none',
+            opacity: isInactive ? opacityAmount : 1,
+            color: isHovered ? 'var(--color-blue-500, #3b82f6)' : 'inherit',
+          },
+        };
+
+        return item.href ? (
+          <a key={index} href={item.href} {...interactionProps}>
+            {content}
           </a>
+        ) : (
+          <button key={index} type="button" {...interactionProps}>
+            {content}
+          </button>
         );
       })}
     </div>
