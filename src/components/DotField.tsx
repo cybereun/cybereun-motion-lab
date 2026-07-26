@@ -113,7 +113,6 @@ const DotField = memo(({
         context.setTransform(dpr, 0, 0, dpr, 0, 0);
         sizeRef.current = { w: rect.width, h: rect.height };
         buildDots(rect.width, rect.height);
-        if (reducedMotion) drawFrame();
       }, 60);
     };
 
@@ -123,7 +122,7 @@ const DotField = memo(({
       mouseRef.current.y = event.clientY - rect.top;
     };
 
-    const onPointerLeave = () => {
+    const resetPointer = () => {
       mouseRef.current.x = -9999;
       mouseRef.current.y = -9999;
     };
@@ -147,7 +146,7 @@ const DotField = memo(({
       const mouse = mouseRef.current;
       const { w, h } = sizeRef.current;
       const time = frameCount * 0.02;
-      const targetEngagement = reducedMotion ? 0 : Math.min(mouse.speed / 5, 1);
+      const targetEngagement = Math.min(mouse.speed / 5, 1);
       engagement.current += (targetEngagement - engagement.current) * 0.06;
       if (engagement.current < 0.001) engagement.current = 0;
       const engaged = engagement.current;
@@ -210,7 +209,7 @@ const DotField = memo(({
           drawX += Math.cos(dot.ay * 0.03 + time * 0.7) * waveAmplitude * 0.5;
         }
 
-        const sparkleScale = sparkle && ((index * 2654435761 ^ frameCount >> 3) >>> 0) % 100 < 3
+        const sparkleScale = sparkle && !reducedMotion && ((index * 2654435761 ^ frameCount >> 3) >>> 0) % 100 < 3
           ? 1.8
           : 1;
         const drawRadius = radius * sparkleScale;
@@ -219,22 +218,20 @@ const DotField = memo(({
       }
 
       context.fill();
-      if (!reducedMotion || frameCount === 1) {
-        rafRef.current = window.requestAnimationFrame(drawFrame);
-      }
+      rafRef.current = window.requestAnimationFrame(drawFrame);
     };
 
     resize();
-    container.addEventListener('pointermove', onPointerMove, { passive: true });
-    container.addEventListener('pointerleave', onPointerLeave);
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    window.addEventListener('blur', resetPointer);
     window.addEventListener('resize', resize);
     rafRef.current = window.requestAnimationFrame(drawFrame);
 
     return () => {
       if (rafRef.current !== null) window.cancelAnimationFrame(rafRef.current);
       window.clearTimeout(resizeTimer);
-      container.removeEventListener('pointermove', onPointerMove);
-      container.removeEventListener('pointerleave', onPointerLeave);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('blur', resetPointer);
       window.removeEventListener('resize', resize);
     };
   }, [

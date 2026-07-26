@@ -17,6 +17,7 @@ import { loaderGroups } from './data/loaders';
 import { loadersCode } from './utils/loadersCode';
 import { InViewRender } from './components/InViewRender';
 import DotField from './components/DotField';
+import { IntroPage } from './components/IntroPage';
 
 // Card layouts imports
 import { cardsData, CardConfig } from './data/cards';
@@ -45,7 +46,30 @@ const tabLabels: Record<CatalogTabType, string> = {
   loaders: 'Loaders',
 };
 
-export default function App() {
+type AppProps = {
+  initiallyEntered?: boolean;
+};
+
+export default function App({ initiallyEntered = false }: AppProps) {
+  const [hasEntered, setHasEntered] = useState(initiallyEntered);
+
+  return (
+    <AnimatePresence mode="wait">
+      {hasEntered ? (
+        <MotionLab />
+      ) : (
+        <IntroPage
+          onEnter={() => {
+            window.scrollTo(0, 0);
+            setHasEntered(true);
+          }}
+        />
+      )}
+    </AnimatePresence>
+  );
+}
+
+function MotionLab() {
   const [layout, setLayout] = useState<LayoutMode>('grid');
   const [sortBy, setSortBy] = useState<SortMode>('default');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
