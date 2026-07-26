@@ -260,15 +260,27 @@ export default function App() {
               <span className="inline-block">{stars !== null ? stars : 'Star'}</span>
             </a>
             <a 
-              href="https://github.com/cybereun"
+              href="https://www.threads.com/@gogo_lebi"
               target="_blank" 
               rel="noopener noreferrer" 
-              aria-label="Visit cybereun on GitHub"
-              className={`hidden sm:inline-flex items-center justify-center w-[36px] h-[36px] rounded-full transition-colors duration-150 ${theme === 'dark' ? 'bg-[rgba(255,255,255,0.07)] hover:bg-[rgba(255,255,255,0.1)] text-[rgba(237,237,237,0.6)] hover:text-[#ededed]' : 'bg-neutral-200/80 hover:bg-neutral-300/80 text-black hover:text-black'}`}
+              aria-label="Visit @gogo_lebi on Threads"
+              title="@gogo_lebi on Threads"
+              className={`inline-flex items-center justify-center w-[36px] h-[36px] rounded-full transition-colors duration-150 ${theme === 'dark' ? 'bg-[rgba(255,255,255,0.07)] hover:bg-[rgba(255,255,255,0.1)] text-[rgba(237,237,237,0.6)] hover:text-[#ededed]' : 'bg-neutral-200/80 hover:bg-neutral-300/80 text-black hover:text-black'}`}
             >
-              <svg viewBox="0 0 16 17" fill="currentColor" className="w-[16px] h-[17px] block">
-                <path d="M12.4041 1.39726H14.6953L9.69087 7.2591L15.5781 15.2368H10.9696L7.35741 10.3996L3.22921 15.2368H0.934687L6.28641 8.96575L0.642598 1.39726H5.36795L8.62962 5.81859L12.4041 1.39726ZM11.5992 13.8329H12.8682L4.67667 2.72798H3.31359L11.5992 13.8329Z"></path>
-              </svg>
+              <span
+                aria-hidden="true"
+                className="block h-[17px] w-[17px] bg-current"
+                style={{
+                  WebkitMaskImage: "url('/threads.svg')",
+                  maskImage: "url('/threads.svg')",
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskPosition: 'center',
+                  maskPosition: 'center',
+                  WebkitMaskSize: 'contain',
+                  maskSize: 'contain',
+                }}
+              />
             </a>
 
             {/* Theme Toggle Button on the absolute right corner */}
