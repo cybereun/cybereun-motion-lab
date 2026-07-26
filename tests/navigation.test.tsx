@@ -27,4 +27,5 @@ test('the entered home hero keeps the interactive DotField background', () => {
 
   assert.match(html, /data-testid="hero-dot-field"/);
   assert.match(html, /Interfaces that move/);
+  assert.doesNotMatch(html, /<button[^>]*>\s*<span>More<\/span>/);
 });

@@ -81,7 +81,6 @@ function MotionLab() {
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [moreDropdownOpen, setMoreDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   // Hash-based router
@@ -663,51 +662,6 @@ function MotionLab() {
                         Loaders
                       </button>
 
-                      {/* More Filters Dropdown */}
-                      <div className="relative animate-none">
-                        <button
-                          onClick={() => setMoreDropdownOpen(!moreDropdownOpen)}
-                          className={`flex-none flex items-center justify-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors cursor-pointer border-0 whitespace-nowrap ${
-                            theme === 'dark' ? 'text-[#767676] hover:text-white' : 'text-black opacity-70 hover:opacity-100'
-                          }`}
-                        >
-                          <span>More</span>
-                          <ChevronDown className="w-3.5 h-3.5" />
-                        </button>
-
-                        <AnimatePresence>
-                          {moreDropdownOpen && (
-                            <>
-                              <div 
-                                className="fixed inset-0 z-0 bg-transparent"
-                                onClick={() => setMoreDropdownOpen(false)} 
-                              />
-                              <motion.div
-                                initial={{ opacity: 0, y: -8, scale: 0.96 }}
-                                animate={{ opacity: 1, y: 6, scale: 1 }}
-                                exit={{ opacity: 0, y: -8, scale: 0.96 }}
-                                transition={{ duration: 0.15, ease: "easeOut" }}
-                                className={`absolute top-full right-0 z-[60] rounded-[20px] border p-4 shadow-xl flex flex-col gap-2 min-w-[260px] text-center select-none backdrop-blur-xl ${
-                                  theme === 'dark' 
-                                    ? 'bg-[#061328]/95 border-blue-300/10 text-blue-50 shadow-black/40'
-                                    : 'bg-white/95 border-neutral-200 text-black shadow-neutral-200/30'
-                                }`}
-                              >
-                                <div className={`font-bold text-[11px] uppercase tracking-widest mb-0.5 ${
-                                  theme === 'dark' ? 'text-[#ededed]' : 'text-black'
-                                }`}>
-                                  More Coming Soon
-                                </div>
-                                <p className={`text-[11px] leading-[15px] italic m-0 transition-colors ${
-                                  theme === 'dark' ? 'text-[#767676]' : 'text-black opacity-70'
-                                }`}>
-                                  "Motion is the brush stroke of digital art. More premium transitions are crafting behind the scenes."
-                                </p>
-                              </motion.div>
-                            </>
-                          )}
-                        </AnimatePresence>
-                      </div>
                     </div>
                   </div>
 
