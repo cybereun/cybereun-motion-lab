@@ -94,3 +94,19 @@ test('motion controls include a visible black accent option', () => {
   assert.match(source, /'#000000'/);
   assert.match(css, /\.control-accents button\s*{[^}]*box-shadow:\s*inset/s);
 });
+
+test('the focused studio preview promotes neutral loaders to a high-contrast palette', () => {
+  const source = readFileSync(
+    new URL('../src/components/MotionWorkspace.tsx', import.meta.url),
+    'utf8',
+  );
+  const css = readFileSync(
+    new URL('../src/components/MotionWorkspace.css', import.meta.url),
+    'utf8',
+  );
+
+  assert.match(source, /gallery dark/);
+  assert.match(css, /\.gallery \.focused-preview-scale[\s\S]*\[class\*="bg-zinc-800"\]/);
+  assert.match(css, /background-color: #edf8ff !important/);
+  assert.match(css, /border-color: #9bd8ff !important/);
+});

@@ -190,7 +190,7 @@ export function MotionWorkspace({ onExit }: MotionWorkspaceProps) {
 
   return (
     <motion.main
-      className={controlsOpen ? 'gallery has-controls' : 'gallery'}
+      className={controlsOpen ? 'gallery dark has-controls' : 'gallery dark'}
       aria-label="Motion Gallery Studio"
       style={{
         '--gallery-accent': accent,

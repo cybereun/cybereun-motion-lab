@@ -402,6 +402,63 @@
   transform-origin: center;
   transition: transform .2s ease;
 }
+
+/*
+ * Most registry loaders intentionally use neutral Tailwind colors so they work
+ * on white documentation pages. Inside the navy studio those defaults lose
+ * contrast, so the focused preview receives a scoped high-contrast palette.
+ * The preserved original overview remains untouched.
+ */
+.gallery .focused-preview-scale :is(
+  [class*="bg-zinc-800"],
+  [class*="bg-zinc-900"],
+  [class*="bg-neutral-800"],
+  [class*="bg-neutral-900"]
+) {
+  background-color: #edf8ff !important;
+  box-shadow: 0 0 18px rgba(122, 201, 255, .22);
+}
+
+.gallery .focused-preview-scale :is(
+  [class*="bg-zinc-300"],
+  [class*="bg-zinc-400"],
+  [class*="bg-zinc-700"],
+  [class*="bg-neutral-400"],
+  [class*="bg-neutral-700"]
+) {
+  background-color: #56a8ff !important;
+}
+
+.gallery .focused-preview-scale :is(
+  [class*="border-zinc-700"],
+  [class*="border-zinc-800"],
+  [class*="border-neutral-700"],
+  [class*="border-neutral-800"]
+) {
+  border-color: #9bd8ff !important;
+  filter: drop-shadow(0 0 7px rgba(86, 168, 255, .34));
+}
+
+.gallery .focused-preview-scale :is(
+  [class*="text-zinc-900"],
+  [class*="text-neutral-900"]
+) {
+  color: #f4faff !important;
+}
+
+.gallery .focused-preview-scale :is(
+  [class*="stroke-zinc-"],
+  [class*="stroke-neutral-"]
+) {
+  stroke: #9bd8ff !important;
+}
+
+.gallery .focused-preview-scale :is(
+  [class*="fill-zinc-"],
+  [class*="fill-neutral-"]
+) {
+  fill: #56a8ff !important;
+}
 .gallery-card-demo { transform: scale(1.25); }
 .preview-hint {
   position: absolute;
