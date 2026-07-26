@@ -190,7 +190,7 @@ export function MotionWorkspace({ onExit }: MotionWorkspaceProps) {
 
   return (
     <motion.main
-      className="gallery"
+      className={controlsOpen ? 'gallery has-controls' : 'gallery'}
       aria-label="Motion Gallery Studio"
       style={{
         '--gallery-accent': accent,
@@ -372,53 +372,43 @@ export function MotionWorkspace({ onExit }: MotionWorkspaceProps) {
 
       <AnimatePresence>
         {controlsOpen && (
-          <>
-            <motion.button
-              className="controls-backdrop"
-              aria-label="Close controls"
-              onClick={() => setControlsOpen(false)}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            />
-            <motion.aside
-              className="controls-drawer"
-              aria-label="Motion controls"
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', stiffness: 320, damping: 34 }}
+          <motion.aside
+            className="controls-drawer"
+            aria-label="Motion controls"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', stiffness: 320, damping: 34 }}
+          >
+            <div className="controls-heading">
+              <div><span>LIVE CONTROLS</span><h2>Preview settings</h2></div>
+              <button onClick={() => setControlsOpen(false)} aria-label="Close controls"><X /></button>
+            </div>
+            <ControlSlider label="Preview scale" value={scale} min={78} max={140} onChange={setScale} />
+            <ControlSlider label="Ambient glow" value={glow} min={10} max={100} onChange={setGlow} />
+            <div className="control-block">
+              <span>Accent color</span>
+              <div className="control-accents">
+                {accentOptions.map((option) => (
+                  <button
+                    key={option}
+                    style={{ background: option }}
+                    className={accent === option ? 'is-active' : ''}
+                    onClick={() => setAccent(option)}
+                    aria-label={`Use ${option} accent`}
+                  />
+                ))}
+              </div>
+            </div>
+            <a
+              href="https://github.com/cybereun/cybereun-motion-lab"
+              target="_blank"
+              rel="noreferrer"
+              className="drawer-source"
             >
-              <div className="controls-heading">
-                <div><span>LIVE CONTROLS</span><h2>Preview settings</h2></div>
-                <button onClick={() => setControlsOpen(false)} aria-label="Close controls"><X /></button>
-              </div>
-              <ControlSlider label="Preview scale" value={scale} min={78} max={140} onChange={setScale} />
-              <ControlSlider label="Ambient glow" value={glow} min={10} max={100} onChange={setGlow} />
-              <div className="control-block">
-                <span>Accent color</span>
-                <div className="control-accents">
-                  {accentOptions.map((option) => (
-                    <button
-                      key={option}
-                      style={{ background: option }}
-                      className={accent === option ? 'is-active' : ''}
-                      onClick={() => setAccent(option)}
-                      aria-label={`Use ${option} accent`}
-                    />
-                  ))}
-                </div>
-              </div>
-              <a
-                href="https://github.com/cybereun/cybereun-motion-lab"
-                target="_blank"
-                rel="noreferrer"
-                className="drawer-source"
-              >
-                View source on GitHub <ArrowUpRight />
-              </a>
-            </motion.aside>
-          </>
+              View source on GitHub <ArrowUpRight />
+            </a>
+          </motion.aside>
         )}
       </AnimatePresence>
     </motion.main>

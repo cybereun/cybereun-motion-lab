@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -34,4 +35,27 @@ test('the entered experience renders the Motion Gallery Studio', () => {
   assert.doesNotMatch(html, /aria-label="Inspector panel"/);
   assert.doesNotMatch(html, /aria-label="Component filmstrip"/);
   assert.doesNotMatch(html, /Interfaces that move/);
+});
+
+test('opening controls reallocates workspace width without blurring the preview', () => {
+  const css = readFileSync(
+    new URL('../src/components/MotionWorkspace.css', import.meta.url),
+    'utf8',
+  );
+
+  assert.match(css, /\.gallery\.has-controls \.gallery-body\s*{[^}]*margin-right:/s);
+  assert.match(css, /\.controls-drawer\s*{[^}]*top: 76px;[^}]*bottom: 110px;/s);
+  assert.doesNotMatch(css, /\.controls-backdrop/);
+  assert.doesNotMatch(css, /backdrop-filter:\s*blur\(5px\)/);
+});
+
+test('browser pagination centers both arrows around a fixed-width counter', () => {
+  const css = readFileSync(
+    new URL('../src/components/MotionWorkspace.css', import.meta.url),
+    'utf8',
+  );
+
+  assert.match(css, /\.browser-pagination\s*{[^}]*grid-template-columns: 30px 44px 30px;/s);
+  assert.match(css, /\.browser-pagination button\s*{[^}]*place-items: center;/s);
+  assert.match(css, /\.browser-pagination span\s*{[^}]*text-align: center;/s);
 });
