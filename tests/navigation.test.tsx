@@ -32,7 +32,8 @@ test('the entered experience defaults to the preserved original overview', () =>
   assert.match(html, /aria-label="Library view"/);
   assert.match(html, /전체 보기/);
   assert.match(html, /개별 보기/);
-  assert.match(html, /Interfaces that move/);
+  assert.match(html, /의도를 담아 움직이는/);
+  assert.match(html, /인터페이스\./);
   assert.match(html, /data-testid="hero-dot-field"/);
   assert.doesNotMatch(html, /aria-label="Motion Gallery Studio"/);
 });

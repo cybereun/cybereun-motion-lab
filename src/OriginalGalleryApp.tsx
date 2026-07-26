@@ -448,8 +448,8 @@ function MotionLab({ onPageChange }: { onPageChange?: (page: PageMode) => void }
                 </div>
                 
                 <h1 className={`relative z-[3] max-w-[900px] text-[44px] sm:text-[72px] lg:text-[86px] font-semibold leading-[0.94] tracking-[-0.06em] mb-6 font-sans transition-colors duration-300 ${theme === 'dark' ? 'text-white drop-shadow-[0_8px_34px_rgba(0,0,0,0.45)]' : 'text-[#07162d]'}`}>
-                  Interfaces that move
-                  <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent">with intention.</span>
+                  의도를 담아 움직이는
+                  <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent">인터페이스.</span>
                 </h1>
                 <p className={`relative z-[3] text-[15px] sm:text-[18px] leading-7 max-w-[650px] transition-colors duration-300 ${theme === 'dark' ? 'text-blue-100/65' : 'text-slate-600'}`}>
                   React와 Motion으로 만든 마이크로 인터랙션 컬렉션입니다. 탐색하고, 직접 움직여 보고, 필요한 코드를 바로 복사하세요.
