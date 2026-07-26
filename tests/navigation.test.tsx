@@ -59,3 +59,13 @@ test('browser pagination centers both arrows around a fixed-width counter', () =
   assert.match(css, /\.browser-pagination button\s*{[^}]*place-items: center;/s);
   assert.match(css, /\.browser-pagination span\s*{[^}]*text-align: center;/s);
 });
+
+test('card previews keep their own hover state instead of being forced open', () => {
+  const source = readFileSync(
+    new URL('../src/components/MotionWorkspace.tsx', import.meta.url),
+    'utf8',
+  );
+
+  assert.doesNotMatch(source, /const shared = \{\s*hovered:\s*true/);
+  assert.match(source, /const shared = \{ className: 'gallery-card-demo' \}/);
+});

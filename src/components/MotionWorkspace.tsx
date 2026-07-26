@@ -481,7 +481,7 @@ function ItemPreview({ item }: { item: WorkspaceItem }) {
 }
 
 function CardPreview({ card }: { card: CardConfig }) {
-  const shared = { hovered: true, className: 'gallery-card-demo' };
+  const shared = { className: 'gallery-card-demo' };
   const cardStyle = 'bg-[#174b82] border border-blue-200/25';
 
   switch (card.interactionType) {
