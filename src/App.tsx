@@ -78,7 +78,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    fetch('https://api.github.com/repos/cybereun/Amicro--Micro-transitions-')
+    fetch('https://api.github.com/repos/cybereun/cybereun-motion-lab')
       .then(res => res.json())
       .then(data => {
         if (data.stargazers_count !== undefined) {
@@ -249,7 +249,7 @@ export default function App() {
           {/* Navbar Actions with Theme Toggle at the far right corner */}
           <div className="flex items-center gap-[8px]">
             <a 
-              href="https://github.com/cybereun/Amicro--Micro-transitions-"
+              href="https://github.com/cybereun/cybereun-motion-lab"
               target="_blank" 
               rel="noopener noreferrer" 
               className={`inline-flex items-center justify-center gap-1.5 h-[36px] px-[13px] rounded-full font-sans text-[13px] font-medium leading-[16px] no-underline transition-colors duration-150 group ${theme === 'dark' ? 'bg-[rgba(255,255,255,0.07)] hover:bg-[rgba(255,255,255,0.1)] text-[rgba(237,237,237,0.6)] hover:text-[#ededed]' : 'bg-neutral-200/80 hover:bg-neutral-300/80 text-black hover:text-black'}`}
@@ -392,7 +392,7 @@ export default function App() {
                 {/* Hero CTAs */}
                 <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
                   <motion.a 
-                    href="https://github.com/cybereun/Amicro--Micro-transitions-"
+                    href="https://github.com/cybereun/cybereun-motion-lab"
                     target="_blank" 
                     rel="noopener noreferrer" 
                     whileHover="hover"

@@ -11,12 +11,12 @@
   "main": "dist/index.html",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cybereun/Amicro--Micro-transitions-.git"
+    "url": "git+https://github.com/cybereun/cybereun-motion-lab.git"
   },
   "bugs": {
-    "url": "https://github.com/cybereun/Amicro--Micro-transitions-/issues"
+    "url": "https://github.com/cybereun/cybereun-motion-lab/issues"
   },
-  "homepage": "https://github.com/cybereun/Amicro--Micro-transitions-#readme",
+  "homepage": "https://github.com/cybereun/cybereun-motion-lab#readme",
   "keywords": [
     "react",
     "ui",
