@@ -493,10 +493,8 @@ interface FocusBlurProps {
 
 export default function FocusBlur({
   items = [
-    { label: '@Twitter', href: '#' },
-    { label: '@Threads', href: '#' },
-    { label: '@Instagram', href: '#' },
-    { label: '@GitHub', href: '#' }
+    { label: '@Threads', href: 'https://www.threads.com/@gogo_lebi' },
+    { label: '@GitHub', href: 'https://github.com/cybereun/cybereun-motion-lab' }
   ],
   blurAmount = 4,
   opacityAmount = 0.4,
@@ -516,6 +514,8 @@ export default function FocusBlur({
           <a
             key={index}
             href={item.href || '#'}
+            target="_blank"
+            rel="noopener noreferrer"
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
             className="relative font-semibold text-lg sm:text-2xl no-underline transition-all duration-300 select-none outline-none"

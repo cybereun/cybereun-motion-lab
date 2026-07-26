@@ -16,10 +16,8 @@ interface FocusBlurProps {
 
 export function FocusBlur({
   items = [
-    { label: '@Twitter', href: '#' },
-    { label: '@Threads', href: '#' },
-    { label: '@Instagram', href: '#' },
-    { label: '@GitHub', href: '#' }
+    { label: '@Threads', href: 'https://www.threads.com/@gogo_lebi' },
+    { label: '@GitHub', href: 'https://github.com/cybereun/cybereun-motion-lab' }
   ],
   blurAmount = 4,
   opacityAmount = 0.4,
@@ -69,7 +67,13 @@ export function FocusBlur({
         };
 
         return item.href ? (
-          <a key={index} href={item.href} {...interactionProps}>
+          <a
+            key={index}
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            {...interactionProps}
+          >
             {content}
           </a>
         ) : (

@@ -16,9 +16,8 @@ export const AnimatedButton = React.memo(function AnimatedButton({ config, layou
     return (
       <FocusBlur 
         items={[
-          { label: '@X' },
-          { label: '@Threads' },
-          { label: '@GitHub' }
+          { label: '@Threads', href: 'https://www.threads.com/@gogo_lebi' },
+          { label: '@GitHub', href: 'https://github.com/cybereun/cybereun-motion-lab' }
         ]} 
         showBrackets={true} 
         className={layoutMode === 'matrix' ? "scale-[0.5] origin-center text-[10px] gap-1 px-1 py-1" : "text-sm gap-4"} 

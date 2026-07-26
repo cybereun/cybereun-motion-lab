@@ -32,5 +32,7 @@ test('the Focus Blur Links catalog preview contains no placeholder navigation', 
   );
 
   assert.doesNotMatch(html, /href="#"/);
-  assert.match(html, /<button[^>]*type="button"[^>]*>[\s\S]*?@GitHub[\s\S]*?<\/button>/);
+  assert.doesNotMatch(html, /@X/);
+  assert.match(html, /href="https:\/\/www\.threads\.com\/@gogo_lebi"/);
+  assert.match(html, /href="https:\/\/github\.com\/cybereun\/cybereun-motion-lab"/);
 });
