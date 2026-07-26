@@ -6,6 +6,11 @@
   isolation: isolate;
 }
 
+.dot-field-container.hero-dot-field {
+  position: absolute;
+  inset: 0;
+}
+
 .dot-field-container canvas,
 .dot-field-container svg {
   pointer-events: none;

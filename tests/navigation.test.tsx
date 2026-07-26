@@ -16,4 +16,5 @@ test('the home hero includes the interactive DotField background', () => {
 
   assert.match(html, /data-testid="hero-dot-field"/);
   assert.match(html, /aria-label="Interactive dot field background"/);
+  assert.match(html, /hero-dot-field/);
 });

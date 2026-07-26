@@ -402,7 +402,7 @@ export default function App() {
                   gradientFrom={theme === 'dark' ? 'rgba(96, 165, 250, 0.5)' : 'rgba(37, 99, 235, 0.28)'}
                   gradientTo={theme === 'dark' ? 'rgba(34, 211, 238, 0.2)' : 'rgba(8, 145, 178, 0.2)'}
                   glowColor={theme === 'dark' ? 'rgba(37, 99, 235, 0.32)' : 'rgba(147, 197, 253, 0.38)'}
-                  className="absolute inset-0 z-0"
+                  className="hero-dot-field absolute inset-0 z-0"
                 />
                 <div className={`absolute inset-0 z-[1] pointer-events-none ${theme === 'dark' ? 'bg-[radial-gradient(circle_at_center,rgba(2,10,28,0.04)_0%,rgba(2,10,28,0.3)_58%,rgba(2,10,28,0.88)_100%)]' : 'bg-[radial-gradient(circle_at_center,rgba(247,250,255,0.12)_0%,rgba(247,250,255,0.36)_58%,rgba(247,250,255,0.9)_100%)]'}`} aria-hidden="true" />
                 <div className={`absolute left-1/2 top-[-180px] z-[1] h-[420px] w-[620px] -translate-x-1/2 rounded-full blur-[110px] pointer-events-none ${theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-300/30'}`} aria-hidden="true" />
