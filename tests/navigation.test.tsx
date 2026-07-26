@@ -4,6 +4,7 @@ import test from 'node:test';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import App from '../src/App';
+import { MotionWorkspace } from '../src/components/MotionWorkspace';
 
 test('the header links the Threads icon to @gogo_lebi', () => {
   const html = renderToStaticMarkup(<App initiallyEntered />);
@@ -23,8 +24,19 @@ test('the intro explains the product before entering the library', () => {
   assert.match(html, /hero-dot-field/);
 });
 
-test('the entered experience renders the Motion Gallery Studio', () => {
+test('the entered experience defaults to the preserved original overview', () => {
   const html = renderToStaticMarkup(<App initiallyEntered />);
+
+  assert.match(html, /aria-label="Library view"/);
+  assert.match(html, /전체 보기/);
+  assert.match(html, /개별 보기/);
+  assert.match(html, /Interfaces that move/);
+  assert.match(html, /data-testid="hero-dot-field"/);
+  assert.doesNotMatch(html, /aria-label="Motion Gallery Studio"/);
+});
+
+test('the detail experience remains available as Motion Gallery Studio', () => {
+  const html = renderToStaticMarkup(<MotionWorkspace onExit={() => undefined} />);
 
   assert.match(html, /aria-label="Motion Gallery Studio"/);
   assert.match(html, /aria-label="Component categories"/);
@@ -34,7 +46,6 @@ test('the entered experience renders the Motion Gallery Studio', () => {
   assert.match(html, /Download for Mac/);
   assert.doesNotMatch(html, /aria-label="Inspector panel"/);
   assert.doesNotMatch(html, /aria-label="Component filmstrip"/);
-  assert.doesNotMatch(html, /Interfaces that move/);
 });
 
 test('opening controls reallocates workspace width without blurring the preview', () => {

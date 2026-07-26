@@ -44,6 +44,7 @@ The experience begins with a full-screen introduction powered by an interactive 
 - **128 loaders** — compact and physics-inspired loading animations.
 - **Instant catalog search** — filters buttons, layouts, carousels, and loaders by name.
 - **Motion Gallery Studio** — a fast studio-like layout with distinct preview rows, a focused motion stage, and a compact collection summary.
+- **Dual browsing modes** — enter through the preserved original all-at-once gallery, then switch to the focused Motion Gallery whenever desired.
 - **On-demand preview controls** — adjust preview scale, ambient glow, and accent color in a drawer that stays out of the way until opened.
 - **Purpose-built navigation** — separate Buttons, Card Spreads, 3D Carousels, and Loaders collections.
 - **Copy-ready examples** — copy an interaction implementation directly from its preview.

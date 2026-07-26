@@ -62,3 +62,53 @@ html {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+.dual-view-shell {
+  min-height: 100dvh;
+}
+
+.library-view-switcher {
+  position: fixed;
+  z-index: 90;
+  left: 50%;
+  bottom: 122px;
+  padding: 5px;
+  border: 1px solid rgba(125, 184, 243, 0.24);
+  border-radius: 999px;
+  background: rgba(4, 18, 40, 0.88);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(16px);
+  display: flex;
+  gap: 4px;
+  transform: translateX(-50%);
+}
+
+.library-view-switcher button {
+  min-width: 86px;
+  height: 34px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(205, 224, 244, 0.62);
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.library-view-switcher button:hover {
+  color: white;
+}
+
+.library-view-switcher button.is-active {
+  color: white;
+  background: #267ee8;
+  box-shadow: 0 7px 20px rgba(38, 126, 232, 0.3);
+}
+
+@media (max-width: 760px) {
+  .library-view-switcher {
+    bottom: 14px;
+  }
+}
