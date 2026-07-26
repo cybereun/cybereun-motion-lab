@@ -415,8 +415,8 @@
   [class*="bg-neutral-800"],
   [class*="bg-neutral-900"]
 ) {
-  background-color: #edf8ff !important;
-  box-shadow: 0 0 18px rgba(122, 201, 255, .22);
+  background-color: #ffffff !important;
+  box-shadow: 0 0 18px rgba(255, 255, 255, .2);
 }
 
 .gallery .focused-preview-scale :is(
@@ -426,7 +426,7 @@
   [class*="bg-neutral-400"],
   [class*="bg-neutral-700"]
 ) {
-  background-color: #56a8ff !important;
+  background-color: #c9d2dc !important;
 }
 
 .gallery .focused-preview-scale :is(
@@ -435,29 +435,29 @@
   [class*="border-neutral-700"],
   [class*="border-neutral-800"]
 ) {
-  border-color: #9bd8ff !important;
-  filter: drop-shadow(0 0 7px rgba(86, 168, 255, .34));
+  border-color: #ffffff !important;
+  filter: drop-shadow(0 0 9px rgba(255, 255, 255, .68));
 }
 
 .gallery .focused-preview-scale :is(
   [class*="text-zinc-900"],
   [class*="text-neutral-900"]
 ) {
-  color: #f4faff !important;
+  color: #ffffff !important;
 }
 
 .gallery .focused-preview-scale :is(
   [class*="stroke-zinc-"],
   [class*="stroke-neutral-"]
 ) {
-  stroke: #9bd8ff !important;
+  stroke: #ffffff !important;
 }
 
 .gallery .focused-preview-scale :is(
   [class*="fill-zinc-"],
   [class*="fill-neutral-"]
 ) {
-  fill: #56a8ff !important;
+  fill: #ffffff !important;
 }
 .gallery-card-demo { transform: scale(1.25); }
 .preview-hint {

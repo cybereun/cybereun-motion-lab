@@ -107,6 +107,7 @@ test('the focused studio preview promotes neutral loaders to a high-contrast pal
 
   assert.match(source, /gallery dark/);
   assert.match(css, /\.gallery \.focused-preview-scale[\s\S]*\[class\*="bg-zinc-800"\]/);
-  assert.match(css, /background-color: #edf8ff !important/);
-  assert.match(css, /border-color: #9bd8ff !important/);
+  assert.match(css, /background-color: #ffffff !important/);
+  assert.match(css, /background-color: #c9d2dc !important/);
+  assert.match(css, /border-color: #ffffff !important/);
 });
