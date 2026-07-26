@@ -59,7 +59,7 @@ const categoryMeta = {
   accent: string;
 }>;
 
-const accentOptions = ['#56a8ff', '#53d8e8', '#8b7cff'];
+const accentOptions = ['#56a8ff', '#53d8e8', '#8b7cff', '#000000'];
 const pageSize = 12;
 
 function toItems(category: Category): WorkspaceItem[] {

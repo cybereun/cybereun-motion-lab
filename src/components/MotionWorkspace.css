@@ -510,9 +510,13 @@
   border: 4px solid #0a2242;
   border-radius: 10px;
   outline: 1px solid transparent;
+  box-shadow: inset 0 0 0 1px rgba(220, 235, 250, .28);
   cursor: pointer;
 }
-.control-accents button.is-active { outline-color: white; box-shadow: 0 0 18px currentColor; }
+.control-accents button.is-active {
+  outline-color: white;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .42), 0 0 18px currentColor;
+}
 .drawer-source {
   margin-top: 25px;
   height: 44px;

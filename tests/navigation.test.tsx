@@ -80,3 +80,17 @@ test('card previews keep their own hover state instead of being forced open', ()
   assert.doesNotMatch(source, /const shared = \{\s*hovered:\s*true/);
   assert.match(source, /const shared = \{ className: 'gallery-card-demo' \}/);
 });
+
+test('motion controls include a visible black accent option', () => {
+  const source = readFileSync(
+    new URL('../src/components/MotionWorkspace.tsx', import.meta.url),
+    'utf8',
+  );
+  const css = readFileSync(
+    new URL('../src/components/MotionWorkspace.css', import.meta.url),
+    'utf8',
+  );
+
+  assert.match(source, /'#000000'/);
+  assert.match(css, /\.control-accents button\s*{[^}]*box-shadow:\s*inset/s);
+});
