@@ -22,10 +22,13 @@ test('the intro explains the product before entering the library', () => {
   assert.match(html, /hero-dot-field/);
 });
 
-test('the entered home hero keeps the interactive DotField background', () => {
+test('the entered experience renders the Kinetic Atlas workspace', () => {
   const html = renderToStaticMarkup(<App initiallyEntered />);
 
-  assert.match(html, /data-testid="hero-dot-field"/);
-  assert.match(html, /Interfaces that move/);
-  assert.doesNotMatch(html, /<button[^>]*>\s*<span>More<\/span>/);
+  assert.match(html, /aria-label="Kinetic Atlas workspace"/);
+  assert.match(html, /aria-label="Component categories"/);
+  assert.match(html, /aria-label="Inspector panel"/);
+  assert.match(html, /aria-label="Component filmstrip"/);
+  assert.match(html, /001<\/strong><span>\/ 035/);
+  assert.doesNotMatch(html, /Interfaces that move/);
 });
