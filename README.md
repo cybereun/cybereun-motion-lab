@@ -31,7 +31,7 @@
 
 ## Overview
 
-Cybereun Motion Lab is a personalized, expanded edition of the open-source Amicro project. Its operating screen is a brighter navy **Kinetic Atlas** workspace: choose a motion from the cinematic filmstrip, interact with it on the central stage, tune the live inspector, and copy implementation code.
+Cybereun Motion Lab is a personalized, expanded edition of the open-source Amicro project. Its operating screen is a brighter navy **Motion Gallery Studio**: browse distinct compact previews, interact with the selected motion on a focused stage, open controls only when needed, and copy implementation code.
 
 The experience begins with a full-screen introduction powered by an interactive `DotField`. Moving the pointer disturbs the field even when the operating system requests reduced motion; autonomous waves and sparkles are reduced while direct user feedback remains available.
 
@@ -43,8 +43,8 @@ The experience begins with a full-screen introduction powered by an interactive 
 - **15 spatial layouts** — card spreads, arcs, fans, cascades, and 3D carousel variations.
 - **128 loaders** — compact and physics-inspired loading animations.
 - **Instant catalog search** — filters buttons, layouts, carousels, and loaders by name.
-- **Kinetic Atlas workspace** — an original studio-like layout with a category rail, central motion stage, live inspector, and cinematic filmstrip.
-- **Live preview controls** — adjust motion speed, preview scale, ambient glow, and accent color without leaving the stage.
+- **Motion Gallery Studio** — a fast studio-like layout with distinct preview rows, a focused motion stage, and a compact collection summary.
+- **On-demand preview controls** — adjust preview scale, ambient glow, and accent color in a drawer that stays out of the way until opened.
 - **Purpose-built navigation** — separate Buttons, Card Spreads, 3D Carousels, and Loaders collections.
 - **Copy-ready examples** — copy an interaction implementation directly from its preview.
 - **Dark and light themes** — theme-aware surfaces, borders, typography, and component stages.
@@ -102,8 +102,8 @@ npm run preview
 1. Move the pointer across the introduction to interact with the DotField.
 2. Select **Enter Motion Lab**.
 3. Choose Buttons, Card Spreads, 3D Carousels, or Loaders.
-4. Search by component name or select an entry from the bottom filmstrip.
-5. Interact with the central preview and tune it in the Inspector.
+4. Search all 178 motions or select a distinct preview in the component browser.
+5. Interact with the central preview and open **Controls** only when you need to tune it.
 6. Use **Copy component code** to copy the relevant implementation.
 7. Open **CLI Install** or **Skills** for additional setup guidance.
 
@@ -117,7 +117,7 @@ src/
 │  ├─ DotField.tsx    # Interactive canvas background
 │  ├─ IntroPage.tsx   # Full-screen product introduction
 │  ├─ AnimatedButton.tsx
-│  └─ MotionWorkspace.tsx # Kinetic Atlas operating workspace
+│  └─ MotionWorkspace.tsx # Motion Gallery Studio workspace
 ├─ data/              # Catalog metadata
 ├─ utils/             # Code generation and copy-ready examples
 ├─ App.tsx            # Intro-to-workspace transition

@@ -22,13 +22,16 @@ test('the intro explains the product before entering the library', () => {
   assert.match(html, /hero-dot-field/);
 });
 
-test('the entered experience renders the Kinetic Atlas workspace', () => {
+test('the entered experience renders the Motion Gallery Studio', () => {
   const html = renderToStaticMarkup(<App initiallyEntered />);
 
-  assert.match(html, /aria-label="Kinetic Atlas workspace"/);
+  assert.match(html, /aria-label="Motion Gallery Studio"/);
   assert.match(html, /aria-label="Component categories"/);
-  assert.match(html, /aria-label="Inspector panel"/);
-  assert.match(html, /aria-label="Component filmstrip"/);
-  assert.match(html, /001<\/strong><span>\/ 035/);
+  assert.match(html, /aria-label="Component browser"/);
+  assert.match(html, /aria-label="Collection summary"/);
+  assert.match(html, /Search 178 motions/);
+  assert.match(html, /Download for Mac/);
+  assert.doesNotMatch(html, /aria-label="Inspector panel"/);
+  assert.doesNotMatch(html, /aria-label="Component filmstrip"/);
   assert.doesNotMatch(html, /Interfaces that move/);
 });

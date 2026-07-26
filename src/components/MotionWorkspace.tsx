@@ -1,12 +1,12 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useState, type CSSProperties, type ElementType } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import {
+  ArrowLeft,
   ArrowUpRight,
   Braces,
   Check,
   ChevronLeft,
   ChevronRight,
-  CircleDot,
   Copy,
   Github,
   Layers3,
@@ -14,7 +14,8 @@ import {
   MousePointer2,
   Orbit,
   Search,
-  Sparkles,
+  Settings2,
+  X,
 } from 'lucide-react';
 import { AnimatedButton } from './AnimatedButton';
 import { CardArc5 } from './cards/CardArc5';
@@ -47,13 +48,19 @@ type MotionWorkspaceProps = {
 };
 
 const categoryMeta = {
-  buttons: { label: 'Buttons', eyebrow: 'Micro interactions', icon: MousePointer2 },
-  spreads: { label: 'Card Spreads', eyebrow: 'Spatial layouts', icon: Layers3 },
-  carousels: { label: '3D Carousels', eyebrow: 'Depth systems', icon: Orbit },
-  loaders: { label: 'Loaders', eyebrow: 'Kinetic feedback', icon: LoaderCircle },
-} satisfies Record<Category, { label: string; eyebrow: string; icon: typeof MousePointer2 }>;
+  buttons: { label: 'Buttons', count: 35, icon: MousePointer2, accent: '#8b7cff' },
+  spreads: { label: 'Card Spreads', count: 12, icon: Layers3, accent: '#55d8ff' },
+  carousels: { label: '3D Carousels', count: 3, icon: Orbit, accent: '#a678ff' },
+  loaders: { label: 'Loaders', count: 128, icon: LoaderCircle, accent: '#52d5e8' },
+} satisfies Record<Category, {
+  label: string;
+  count: number;
+  icon: typeof MousePointer2;
+  accent: string;
+}>;
 
-const accentOptions = ['#57a5ff', '#54d6ff', '#8b7cff'];
+const accentOptions = ['#56a8ff', '#53d8e8', '#8b7cff'];
+const pageSize = 12;
 
 function toItems(category: Category): WorkspaceItem[] {
   if (category === 'buttons') {
@@ -93,35 +100,46 @@ function toItems(category: Category): WorkspaceItem[] {
     }));
 }
 
-const allItemCount =
-  buttonsData.length
-  + cardsData.length
-  + loaderGroups.reduce((count, group) => count + group.loaders.length, 0);
+const allItems = (Object.keys(categoryMeta) as Category[]).flatMap((category) =>
+  toItems(category).map((item) => ({ ...item, category })),
+);
 
 export function MotionWorkspace({ onExit }: MotionWorkspaceProps) {
   const [category, setCategory] = useState<Category>('buttons');
   const [selectedId, setSelectedId] = useState('button-1');
   const [query, setQuery] = useState('');
-  const [scale, setScale] = useState(100);
-  const [glow, setGlow] = useState(72);
-  const [speed, setSpeed] = useState(140);
+  const [page, setPage] = useState(0);
+  const [controlsOpen, setControlsOpen] = useState(false);
+  const [scale, setScale] = useState(112);
+  const [glow, setGlow] = useState(62);
   const [accent, setAccent] = useState(accentOptions[0]);
   const [copied, setCopied] = useState(false);
 
   const categoryItems = useMemo(() => toItems(category), [category]);
-  const filteredItems = useMemo(() => {
+  const searchResults = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
     if (!normalizedQuery) return categoryItems;
-    return categoryItems.filter((item) =>
-      `${item.label} ${item.description}`.toLowerCase().includes(normalizedQuery),
-    );
+    return allItems
+      .filter((item) => `${item.label} ${item.description}`.toLowerCase().includes(normalizedQuery))
+      .map(({ category: _category, ...item }) => item);
   }, [categoryItems, query]);
 
+  const visibleItems = searchResults.slice(page * pageSize, (page + 1) * pageSize);
+  const totalPages = Math.max(1, Math.ceil(searchResults.length / pageSize));
   const selectedItem =
-    filteredItems.find((item) => item.id === selectedId)
-    ?? filteredItems[0]
+    searchResults.find((item) => item.id === selectedId)
+    ?? searchResults[0]
     ?? categoryItems[0];
-  const selectedIndex = Math.max(0, filteredItems.findIndex((item) => item.id === selectedItem?.id));
+  const navigationItems = query ? searchResults : categoryItems;
+  const selectedIndex = Math.max(0, navigationItems.findIndex((item) => item.id === selectedItem?.id));
+  const displayCategory =
+    (Object.keys(categoryMeta) as Category[]).find((key) =>
+      toItems(key).some((item) => item.id === selectedItem?.id),
+    ) ?? category;
+  const previewFactor =
+    selectedItem?.kind === 'button' ? 1.75
+    : selectedItem?.kind === 'loader' ? 1.45
+    : 1.05;
 
   useEffect(() => {
     if (!copied) return;
@@ -134,12 +152,22 @@ export function MotionWorkspace({ onExit }: MotionWorkspaceProps) {
     setCategory(nextCategory);
     setSelectedId(nextItems[0]?.id ?? '');
     setQuery('');
+    setPage(0);
+  };
+
+  const selectItem = (item: WorkspaceItem) => {
+    const matchingCategory = (Object.keys(categoryMeta) as Category[]).find((key) =>
+      toItems(key).some((candidate) => candidate.id === item.id),
+    );
+    if (matchingCategory) setCategory(matchingCategory);
+    setSelectedId(item.id);
   };
 
   const moveSelection = (direction: -1 | 1) => {
-    if (!filteredItems.length) return;
-    const nextIndex = (selectedIndex + direction + filteredItems.length) % filteredItems.length;
-    setSelectedId(filteredItems[nextIndex].id);
+    if (!navigationItems.length) return;
+    const nextIndex = (selectedIndex + direction + navigationItems.length) % navigationItems.length;
+    setSelectedId(navigationItems[nextIndex].id);
+    setPage(Math.floor(nextIndex / pageSize));
   };
 
   const copySelectedCode = async () => {
@@ -148,231 +176,277 @@ export function MotionWorkspace({ onExit }: MotionWorkspaceProps) {
     if (selectedItem.kind === 'button') code = getComponentCode(selectedItem.config);
     if (selectedItem.kind === 'card') code = getCardComponentCode(selectedItem.config);
     if (selectedItem.kind === 'loader') {
-      const componentName = selectedItem.config.component.displayName
-        ?? selectedItem.config.component.name;
+      const componentName = selectedItem.config.component.displayName ?? selectedItem.config.component.name;
       code = loadersCode[componentName] ?? `npx @subhanhq/amicro@latest add ${selectedItem.config.kebabName}`;
     }
-    await navigator.clipboard.writeText(code);
-    setCopied(true);
+
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+    } catch {
+      setCopied(false);
+    }
   };
 
   return (
     <motion.main
-      className="atlas"
-      aria-label="Kinetic Atlas workspace"
-      style={{ '--atlas-accent': accent, '--atlas-glow': glow / 100 } as CSSProperties}
+      className="gallery"
+      aria-label="Motion Gallery Studio"
+      style={{
+        '--gallery-accent': accent,
+        '--gallery-glow': glow / 100,
+      } as CSSProperties}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <aside className="atlas-rail">
-        <button className="atlas-brand" onClick={onExit} aria-label="Return to intro">
+      <header className="gallery-header">
+        <button className="gallery-brand" onClick={onExit} aria-label="Return to intro">
           <img src="/cybereun-icon.png" alt="" />
-          <span>CM</span>
+          <strong>CYBEREUN MOTION LAB</strong>
         </button>
-
-        <nav className="atlas-categories" aria-label="Component categories">
-          {(Object.keys(categoryMeta) as Category[]).map((key) => {
-            const Icon = categoryMeta[key].icon;
-            return (
-              <button
-                key={key}
-                className={category === key ? 'is-active' : ''}
-                onClick={() => selectCategory(key)}
-                title={categoryMeta[key].label}
-                aria-label={categoryMeta[key].label}
-                aria-current={category === key ? 'page' : undefined}
-              >
-                <Icon />
-                <span>{categoryMeta[key].label}</span>
-              </button>
-            );
-          })}
-        </nav>
-
-        <div className="atlas-rail-links">
+        <div className="gallery-name">Motion Gallery</div>
+        <label className="gallery-search">
+          <Search />
+          <span className="sr-only">Search 178 motions</span>
+          <input
+            value={query}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setPage(0);
+            }}
+            placeholder="Search 178 motions"
+          />
+        </label>
+        <nav className="gallery-social" aria-label="Social links">
+          <a href="https://github.com/cybereun/cybereun-motion-lab" target="_blank" rel="noreferrer">
+            <Github /> GitHub
+          </a>
           <a
             href="https://www.threads.com/@gogo_lebi"
             target="_blank"
             rel="noreferrer"
             aria-label="Visit @gogo_lebi on Threads"
           >
-            <span className="threads-mark" aria-hidden="true" />
-            <span>Threads</span>
+            <span className="threads-mark" aria-hidden="true" /> Threads
           </a>
-          <a
-            href="https://github.com/cybereun/cybereun-motion-lab"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Open cybereun-motion-lab on GitHub"
-          >
-            <Github />
-            <span>GitHub</span>
-          </a>
-        </div>
-      </aside>
+        </nav>
+      </header>
 
-      <section className="atlas-main">
-        <header className="atlas-header">
-          <div>
-            <p>CYBEREUN MOTION LAB / 2026</p>
-            <h1>Kinetic Atlas</h1>
-          </div>
-          <label className="atlas-search">
-            <Search />
-            <span className="sr-only">Search current collection</span>
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder={`Search ${categoryMeta[category].label.toLowerCase()}`}
-            />
-            <kbd>⌘ K</kbd>
-          </label>
-          <div className="atlas-status">
-            <span />
+      <div className="gallery-body">
+        <aside className="component-browser" aria-label="Component browser">
+          <div className="browser-heading">
             <div>
-              <strong>LIVE LIBRARY</strong>
-              <small>{allItemCount} MOTIONS</small>
+              <span>COMPONENT BROWSER</span>
+              <strong>{query ? `${searchResults.length} results` : categoryMeta[category].label}</strong>
+            </div>
+            <Settings2 />
+          </div>
+
+          <nav className="browser-categories" aria-label="Component categories">
+            {(Object.keys(categoryMeta) as Category[]).map((key) => {
+              const Icon = categoryMeta[key].icon;
+              return (
+                <button
+                  key={key}
+                  className={category === key && !query ? 'is-active' : ''}
+                  onClick={() => selectCategory(key)}
+                  title={categoryMeta[key].label}
+                  aria-label={categoryMeta[key].label}
+                  aria-current={category === key && !query ? 'page' : undefined}
+                >
+                  <Icon />
+                  <span>{categoryMeta[key].count}</span>
+                </button>
+              );
+            })}
+          </nav>
+
+          <div className="browser-list">
+            {visibleItems.map((item, index) => (
+              <button
+                key={item.id}
+                className={selectedItem?.id === item.id ? 'browser-item is-active' : 'browser-item'}
+                onClick={() => selectItem(item)}
+                aria-current={selectedItem?.id === item.id ? 'true' : undefined}
+              >
+                <PreviewGlyph item={item} index={page * pageSize + index} />
+                <span className="browser-item-copy">
+                  <strong>{item.label}</strong>
+                  <small>{item.description}</small>
+                </span>
+                <ArrowUpRight />
+              </button>
+            ))}
+            {!visibleItems.length && <p className="browser-empty">검색 결과가 없습니다.</p>}
+          </div>
+
+          <div className="browser-pagination">
+            <button
+              onClick={() => setPage((current) => Math.max(0, current - 1))}
+              disabled={page === 0}
+              aria-label="Previous browser page"
+            >
+              <ChevronLeft />
+            </button>
+            <span>{page + 1} / {totalPages}</span>
+            <button
+              onClick={() => setPage((current) => Math.min(totalPages - 1, current + 1))}
+              disabled={page >= totalPages - 1}
+              aria-label="Next browser page"
+            >
+              <ChevronRight />
+            </button>
+          </div>
+        </aside>
+
+        <section className="gallery-stage" aria-live="polite">
+          <div className="stage-topline">
+            <div>
+              <span>{categoryMeta[displayCategory].label.toUpperCase()}</span>
+              <strong>{String(selectedIndex + 1).padStart(2, '0')} / {String(navigationItems.length).padStart(2, '0')}</strong>
+            </div>
+            <div className="stage-actions">
+              <button className="stage-copy" onClick={copySelectedCode}>
+                {copied ? <Check /> : <Copy />}
+                {copied ? 'Copied' : 'Copy code'}
+              </button>
+              <button className="stage-controls" onClick={() => setControlsOpen(true)}>
+                <Settings2 /> Controls
+              </button>
             </div>
           </div>
-        </header>
 
-        <div className="atlas-canvas">
-          <div className="atlas-stage" aria-live="polite">
-            <div className="atlas-grid" aria-hidden="true" />
-            <div className="atlas-orbit atlas-orbit-one" aria-hidden="true" />
-            <div className="atlas-orbit atlas-orbit-two" aria-hidden="true" />
+          <div className="stage-heading">
+            <h1>{selectedItem?.label ?? 'No results'}</h1>
+            <p>{selectedItem?.description ?? '다른 검색어를 입력해 보세요.'}</p>
+          </div>
 
-            <div className="atlas-stage-meta">
-              <p>{categoryMeta[category].eyebrow}</p>
-              <span>Drag · hover · click</span>
-            </div>
-
-            <div className="atlas-index">
-              <strong>{String(selectedIndex + 1).padStart(3, '0')}</strong>
-              <span>/ {String(filteredItems.length).padStart(3, '0')}</span>
-            </div>
-
-            {selectedItem ? (
+          <div className="focused-preview">
+            <div className="preview-lines" aria-hidden="true" />
+            <div className="preview-floor" aria-hidden="true" />
+            {selectedItem && (
               <AnimatePresence mode="wait">
                 <motion.div
                   key={selectedItem.id}
-                  className="atlas-preview"
-                  style={{ transform: `scale(${scale / 100})` }}
-                  initial={{ opacity: 0, scale: 0.86, y: 18 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, y: -12 }}
-                  transition={{ duration: Math.max(0.2, 230 / speed), ease: [0.22, 1, 0.36, 1] }}
+                  className="focused-preview-content"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <motion.div
-                    className="atlas-preview-aura"
-                    animate={{ scale: [0.94, 1.06, 0.94], opacity: [0.4, 0.8, 0.4] }}
-                    transition={{ duration: Math.max(1.2, 400 / speed), repeat: Infinity }}
-                  />
-                  <div className="atlas-preview-content">
+                  <div
+                    className="focused-preview-scale"
+                    style={{ transform: `scale(${(scale / 100) * previewFactor})` }}
+                  >
                     <ItemPreview item={selectedItem} />
                   </div>
                 </motion.div>
               </AnimatePresence>
-            ) : (
-              <div className="atlas-empty">No motion found.</div>
             )}
-
-            <div className="atlas-title">
-              <span>{categoryMeta[category].label}</span>
-              <h2>{selectedItem?.label ?? 'No results'}</h2>
-              <p>{selectedItem?.description}</p>
-            </div>
-
-            <div className="atlas-stage-nav">
-              <button onClick={() => moveSelection(-1)} aria-label="Previous component">
-                <ChevronLeft />
-              </button>
-              <button onClick={() => moveSelection(1)} aria-label="Next component">
-                <ChevronRight />
-              </button>
-            </div>
+            <span className="preview-hint">Hover or press to preview</span>
           </div>
 
-          <aside className="atlas-inspector" aria-label="Inspector panel">
-            <div className="inspector-heading">
-              <div>
-                <p>LIVE CONTROLS</p>
-                <h2>Inspector</h2>
-              </div>
-              <CircleDot />
-            </div>
-
-            <ControlSlider label="Motion speed" value={speed} min={80} max={240} unit="%" onChange={setSpeed} />
-            <ControlSlider label="Preview scale" value={scale} min={70} max={130} unit="%" onChange={setScale} />
-            <ControlSlider label="Ambient glow" value={glow} min={10} max={100} unit="%" onChange={setGlow} />
-
-            <div className="inspector-block">
-              <div className="inspector-label">
-                <span>Accent signal</span>
-                <strong>{accent.toUpperCase()}</strong>
-              </div>
-              <div className="accent-options">
-                {accentOptions.map((option) => (
-                  <button
-                    key={option}
-                    style={{ background: option }}
-                    className={accent === option ? 'is-active' : ''}
-                    onClick={() => setAccent(option)}
-                    aria-label={`Use ${option} accent`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="inspector-data">
-              <div><span>Engine</span><strong>Motion / React</strong></div>
-              <div><span>Interaction</span><strong>{selectedItem?.kind ?? '—'}</strong></div>
-              <div><span>Status</span><strong className="status-ready">Ready</strong></div>
-            </div>
-
-            <button className="copy-code" onClick={copySelectedCode} disabled={!selectedItem}>
-              {copied ? <Check /> : <Copy />}
-              <span>{copied ? 'Copied to clipboard' : 'Copy component code'}</span>
+          <div className="stage-switcher">
+            <button onClick={() => moveSelection(-1)} aria-label="Previous component">
+              <ArrowLeft /> Previous
             </button>
-            <a
-              className="open-repository"
-              href="https://github.com/cybereun/cybereun-motion-lab"
-              target="_blank"
-              rel="noreferrer"
-            >
-              View source <ArrowUpRight />
-            </a>
-          </aside>
-        </div>
-
-        <section className="atlas-filmstrip" aria-label="Component filmstrip">
-          <div className="filmstrip-label">
-            <span>COLLECTION</span>
-            <strong>{categoryMeta[category].label}</strong>
-            <small>{filteredItems.length} entries</small>
-          </div>
-          <div className="filmstrip-track">
-            {filteredItems.map((item, index) => (
-              <button
-                key={item.id}
-                onClick={() => setSelectedId(item.id)}
-                className={selectedItem?.id === item.id ? 'is-active' : ''}
-                aria-current={selectedItem?.id === item.id ? 'true' : undefined}
-              >
-                <span className="filmstrip-number">{String(index + 1).padStart(2, '0')}</span>
-                <span className={`filmstrip-art is-${item.kind}`}>
-                  {item.kind === 'button' && <MousePointer2 />}
-                  {item.kind === 'card' && <Layers3 />}
-                  {item.kind === 'loader' && <LoaderCircle />}
-                </span>
-                <strong>{item.label}</strong>
-              </button>
-            ))}
+            <button onClick={() => moveSelection(1)} aria-label="Next component">
+              Next <ChevronRight />
+            </button>
           </div>
         </section>
-      </section>
+      </div>
+
+      <nav className="collection-summary" aria-label="Collection summary">
+        {(Object.keys(categoryMeta) as Category[]).map((key) => {
+          const Icon = categoryMeta[key].icon;
+          return (
+            <button key={key} onClick={() => selectCategory(key)} className={category === key ? 'is-active' : ''}>
+              <Icon style={{ color: categoryMeta[key].accent }} />
+              <span><strong>{categoryMeta[key].label}</strong><small>{categoryMeta[key].count}</small></span>
+            </button>
+          );
+        })}
+      </nav>
+
+      <AnimatePresence>
+        {controlsOpen && (
+          <>
+            <motion.button
+              className="controls-backdrop"
+              aria-label="Close controls"
+              onClick={() => setControlsOpen(false)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+            <motion.aside
+              className="controls-drawer"
+              aria-label="Motion controls"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', stiffness: 320, damping: 34 }}
+            >
+              <div className="controls-heading">
+                <div><span>LIVE CONTROLS</span><h2>Preview settings</h2></div>
+                <button onClick={() => setControlsOpen(false)} aria-label="Close controls"><X /></button>
+              </div>
+              <ControlSlider label="Preview scale" value={scale} min={78} max={140} onChange={setScale} />
+              <ControlSlider label="Ambient glow" value={glow} min={10} max={100} onChange={setGlow} />
+              <div className="control-block">
+                <span>Accent color</span>
+                <div className="control-accents">
+                  {accentOptions.map((option) => (
+                    <button
+                      key={option}
+                      style={{ background: option }}
+                      className={accent === option ? 'is-active' : ''}
+                      onClick={() => setAccent(option)}
+                      aria-label={`Use ${option} accent`}
+                    />
+                  ))}
+                </div>
+              </div>
+              <a
+                href="https://github.com/cybereun/cybereun-motion-lab"
+                target="_blank"
+                rel="noreferrer"
+                className="drawer-source"
+              >
+                View source on GitHub <ArrowUpRight />
+              </a>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
     </motion.main>
+  );
+}
+
+function PreviewGlyph({ item, index }: { item: WorkspaceItem; index: number }) {
+  if (item.kind === 'button') {
+    const Icon = typeof item.config.icon1 === 'string' ? MousePointer2 : item.config.icon1 as ElementType;
+    return (
+      <span className={`preview-glyph button-glyph variant-${index % 4}`}>
+        <Icon />
+      </span>
+    );
+  }
+
+  if (item.kind === 'card') {
+    return (
+      <span className={`preview-glyph card-glyph variant-${index % 4}`}>
+        <i /><i /><i />
+      </span>
+    );
+  }
+
+  return (
+    <span className={`preview-glyph loader-glyph variant-${index % 6}`}>
+      <i /><i /><i />
+    </span>
   );
 }
 
@@ -381,22 +455,17 @@ function ControlSlider({
   value,
   min,
   max,
-  unit,
   onChange,
 }: {
   label: string;
   value: number;
   min: number;
   max: number;
-  unit: string;
   onChange: (value: number) => void;
 }) {
   return (
-    <label className="inspector-block">
-      <span className="inspector-label">
-        <span>{label}</span>
-        <strong>{value}{unit}</strong>
-      </span>
+    <label className="control-block">
+      <span>{label}<strong>{value}%</strong></span>
       <input
         type="range"
         min={min}
@@ -422,11 +491,8 @@ function ItemPreview({ item }: { item: WorkspaceItem }) {
 }
 
 function CardPreview({ card }: { card: CardConfig }) {
-  const shared = {
-    hovered: true,
-    className: 'atlas-card-demo',
-  };
-  const cardStyle = 'bg-[#123d72] border border-blue-200/20';
+  const shared = { hovered: true, className: 'gallery-card-demo' };
+  const cardStyle = 'bg-[#174b82] border border-blue-200/25';
 
   switch (card.interactionType) {
     case 'card-arc-5': return <CardArc5 {...shared} cardClassName={cardStyle} />;
