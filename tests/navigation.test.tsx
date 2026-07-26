@@ -18,11 +18,13 @@ test('the header links the Threads icon to @gogo_lebi', () => {
 test('the intro explains the product before entering the library', () => {
   const html = renderToStaticMarkup(<App />);
 
-  assert.match(html, /Welcome to Cybereun Motion Lab/);
-  assert.match(html, /Enter Motion Lab/);
-  assert.match(html, /A living library of React micro-interactions/);
+  assert.match(html, /Cybereun Motion Lab에 오신 것을 환영합니다/);
+  assert.match(html, /모션 랩 입장하기/);
+  assert.match(html, /살아 움직이는 React 마이크로 인터랙션 라이브러리/);
+  assert.match(html, /직접 느끼는/);
+  assert.match(html, /나만의 모션\./);
   assert.match(html, /data-testid="hero-dot-field"/);
-  assert.match(html, /aria-label="Interactive dot field background"/);
+  assert.match(html, /aria-label="포인터에 반응하는 점 배경"/);
   assert.match(html, /hero-dot-field/);
 });
 

@@ -18,23 +18,23 @@ type IntroPageProps = {
 const previewItems = [
   {
     icon: Sparkles,
-    eyebrow: 'MICRO INTERACTIONS',
-    title: 'Buttons that respond',
-    description: 'Hover, press and focus states with intentional motion.',
+    eyebrow: '마이크로 인터랙션',
+    title: '움직임으로 반응하는 버튼',
+    description: '마우스 오버, 누르기와 포커스 상태를 자연스러운 움직임으로 표현합니다.',
     accent: 'from-blue-400 to-cyan-300',
   },
   {
     icon: Layers3,
-    eyebrow: 'LAYOUT SYSTEMS',
-    title: 'Cards with depth',
-    description: 'Spreads, carousels and spatial layouts ready to remix.',
+    eyebrow: '레이아웃 시스템',
+    title: '깊이감을 가진 카드',
+    description: '스프레드, 캐러셀과 공간 레이아웃을 자유롭게 조합할 수 있습니다.',
     accent: 'from-cyan-300 to-indigo-400',
   },
   {
     icon: Boxes,
-    eyebrow: 'MOTION FEEDBACK',
-    title: 'Loaders that delight',
-    description: 'Expressive loading states for every kind of product.',
+    eyebrow: '모션 피드백',
+    title: '기다림이 즐거운 로더',
+    description: '다양한 제품에 어울리는 풍부한 로딩 상태를 제공합니다.',
     accent: 'from-indigo-400 to-blue-400',
   },
 ];
@@ -51,7 +51,7 @@ export function IntroPage({ onEnter }: IntroPageProps) {
     >
       <DotField
         data-testid="hero-dot-field"
-        aria-label="Interactive dot field background"
+        aria-label="포인터에 반응하는 점 배경"
         role="img"
         dotRadius={1.8}
         dotSpacing={16}
@@ -89,7 +89,7 @@ export function IntroPage({ onEnter }: IntroPageProps) {
               href="https://github.com/cybereun/cybereun-motion-lab"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="View Cybereun Motion Lab on GitHub"
+              aria-label="GitHub에서 Cybereun Motion Lab 보기"
               className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.05] text-white/55 backdrop-blur-xl transition-colors hover:bg-white/10 hover:text-white"
             >
               <Github className="h-4 w-4" />
@@ -98,7 +98,7 @@ export function IntroPage({ onEnter }: IntroPageProps) {
               href="https://www.threads.com/@gogo_lebi"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Visit @gogo_lebi on Threads"
+              aria-label="Threads에서 @gogo_lebi 방문하기"
               className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.05] text-white/55 backdrop-blur-xl transition-colors hover:bg-white/10 hover:text-white"
             >
               <span
@@ -128,7 +128,7 @@ export function IntroPage({ onEnter }: IntroPageProps) {
               className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-300/15 bg-blue-400/[0.08] px-3.5 py-2 text-[9px] font-semibold tracking-[0.18em] text-blue-200 backdrop-blur-xl"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_14px_rgba(103,232,249,0.9)]" />
-              Welcome to Cybereun Motion Lab
+              Cybereun Motion Lab에 오신 것을 환영합니다
             </motion.div>
 
             <motion.h1
@@ -137,9 +137,9 @@ export function IntroPage({ onEnter }: IntroPageProps) {
               transition={{ delay: 0.18, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
               className="m-0 max-w-[760px] text-[52px] font-semibold leading-[0.93] tracking-[-0.064em] sm:text-[72px] lg:text-[82px] xl:text-[92px]"
             >
-              Motion you can
+              직접 느끼는
               <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent">
-                feel and keep.
+                나만의 모션.
               </span>
             </motion.h1>
 
@@ -149,8 +149,8 @@ export function IntroPage({ onEnter }: IntroPageProps) {
               transition={{ delay: 0.26, duration: 0.6 }}
               className="mb-0 mt-7 max-w-[610px] text-[16px] leading-7 text-blue-100/62 sm:text-[18px] sm:leading-8"
             >
-              A living library of React micro-interactions. 버튼, 카드 레이아웃,
-              3D 캐러셀과 로더를 직접 움직여 보고 필요한 코드를 바로 복사하세요.
+              살아 움직이는 React 마이크로 인터랙션 라이브러리입니다. 버튼, 카드 레이아웃,
+              3D 캐러셀과 로더를 직접 체험하고 필요한 코드를 바로 가져가세요.
             </motion.p>
 
             <motion.div
@@ -164,12 +164,12 @@ export function IntroPage({ onEnter }: IntroPageProps) {
                 onClick={onEnter}
                 className="group inline-flex h-14 cursor-pointer items-center justify-center gap-3 rounded-full border-0 bg-blue-500 px-7 text-[14px] font-semibold text-white shadow-[0_18px_46px_rgba(37,99,235,0.38)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-400 hover:shadow-[0_22px_58px_rgba(37,99,235,0.5)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300"
               >
-                Enter Motion Lab
+                모션 랩 입장하기
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </button>
               <span className="inline-flex items-center gap-2 px-2 text-[11px] font-medium text-blue-200/40">
                 <Code2 className="h-3.5 w-3.5" />
-                Explore · Preview · Copy
+                탐색 · 미리보기 · 복사
               </span>
             </motion.div>
 
@@ -179,13 +179,13 @@ export function IntroPage({ onEnter }: IntroPageProps) {
               transition={{ delay: 0.5, duration: 0.6 }}
               className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-blue-200/35"
             >
-              <span>35 button motions</span>
-              <span>15 spatial layouts</span>
-              <span>128 loaders</span>
+              <span>버튼 모션 35개</span>
+              <span>공간 레이아웃 15개</span>
+              <span>로더 128개</span>
             </motion.div>
           </section>
 
-          <section aria-label="Library preview" className="relative mx-auto hidden w-full max-w-[540px] lg:block">
+          <section aria-label="라이브러리 미리보기" className="relative mx-auto hidden w-full max-w-[540px] lg:block">
             <div className="pointer-events-none absolute left-1/2 top-1/2 h-[480px] w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-[100px]" />
             <div className="relative flex min-h-[520px] flex-col justify-center gap-4">
               {previewItems.map((item, index) => {
@@ -223,10 +223,10 @@ export function IntroPage({ onEnter }: IntroPageProps) {
         </div>
 
         <footer className="flex items-center justify-between border-t border-white/[0.06] pt-5 text-[9px] font-semibold uppercase tracking-[0.15em] text-blue-200/28">
-          <span>Open source · MIT licensed</span>
+          <span>오픈소스 · MIT 라이선스</span>
           <span className="hidden items-center gap-2 sm:inline-flex">
             <span className="h-1 w-1 rounded-full bg-cyan-300" />
-            Move your cursor to disturb the field
+            커서를 움직여 점의 흐름을 바꿔보세요
           </span>
         </footer>
       </div>
