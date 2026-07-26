@@ -111,3 +111,13 @@ test('the focused studio preview promotes neutral loaders to a high-contrast pal
   assert.match(css, /background-color: #c9d2dc !important/);
   assert.match(css, /border-color: #ffffff !important/);
 });
+
+test('the terminal loader cursor remains gray against its white card', () => {
+  const css = readFileSync(
+    new URL('../src/components/MotionWorkspace.css', import.meta.url),
+    'utf8',
+  );
+
+  assert.match(css, /\[class\*="bg-zinc-900"\][\s\S]*\[class\*="dark:bg-zinc-800"\]/);
+  assert.match(css, /background-color: #6b7280 !important/);
+});
