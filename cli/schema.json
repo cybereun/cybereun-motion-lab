@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/cybereun/cybereun-motion-lab/main/cli/schema.json",
+  "title": "Cybereun Motion Lab CLI configuration",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "componentsDir": {
+      "type": "string",
+      "default": "src/components/motion-lab",
+      "description": "Project-relative directory where CLI components are written."
+    }
+  },
+  "required": [
+    "componentsDir"
+  ],
+  "additionalProperties": false
+}

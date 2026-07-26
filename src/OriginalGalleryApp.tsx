@@ -255,7 +255,7 @@ function MotionLab() {
                     : (theme === 'dark' ? 'text-[rgba(202,202,202,0.7)] hover:text-white hover:bg-[rgba(255,255,255,0.04)]' : 'text-neutral-600 hover:text-black hover:bg-neutral-200/40')
                 }`}
               >
-                CLI Install
+                Lab Install
               </button>
               <button 
                 onClick={() => navigateTo('skills')}
@@ -265,7 +265,7 @@ function MotionLab() {
                     : (theme === 'dark' ? 'text-[rgba(202,202,202,0.7)] hover:text-white hover:bg-[rgba(255,255,255,0.04)]' : 'text-neutral-600 hover:text-black hover:bg-neutral-200/40')
                 }`}
               >
-                Skills
+                AI Skills
               </button>
             </nav>
           </div>
@@ -359,7 +359,7 @@ function MotionLab() {
                     : (theme === 'dark' ? 'text-neutral-400 hover:text-white' : 'text-neutral-600 hover:text-black')
                 }`}
               >
-                CLI Install
+                Lab Install
               </button>
               <button 
                 onClick={() => navigateTo('skills')}
@@ -369,7 +369,7 @@ function MotionLab() {
                     : (theme === 'dark' ? 'text-neutral-400 hover:text-white' : 'text-neutral-600 hover:text-black')
                 }`}
               >
-                Skills
+                AI Skills
               </button>
             </motion.div>
           )}

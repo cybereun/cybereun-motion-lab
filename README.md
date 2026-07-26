@@ -49,7 +49,7 @@ The experience begins with a full-screen introduction powered by an interactive 
 - **Purpose-built navigation** — separate Buttons, Card Spreads, 3D Carousels, and Loaders collections.
 - **Copy-ready examples** — copy an interaction implementation directly from its preview.
 - **Dark and light themes** — theme-aware surfaces, borders, typography, and component stages.
-- **CLI and Skills guides** — dedicated in-app pages for installation and workflow guidance.
+- **Standalone CLI and AI Skills** — install source components with `cybereun-motion` and reuse project-specific AI recipes.
 - **Responsive navigation** — desktop pills and a mobile-friendly category menu.
 - **Personal social links** — Threads links to `@gogo_lebi`; GitHub links to this repository.
 - **PWA support** — installable manifest, custom application icons, and a network-first service worker.
@@ -62,8 +62,8 @@ The experience begins with a full-screen introduction powered by an interactive 
 | Buttons | 35 | Hover, focus, press, copy code |
 | Card Spreads & 3D Carousels | 15 | Hovered spatial previews and layout changes |
 | Loaders | 128 | In-view rendering and animated previews |
-| CLI Install | Guide | Commands and setup instructions |
-| Skills | Guide | Workflow and integration guidance |
+| Lab Install | Guide | GitHub installation and standalone CLI setup |
+| AI Skills | Guide | Cybereun prompt recipes and CLI command catalog |
 
 ## Getting started
 
@@ -106,7 +106,7 @@ npm run preview
 4. Search all 178 motions or select a distinct preview in the component browser.
 5. Interact with the central preview and open **Controls** only when you need to tune it.
 6. Use **Copy component code** to copy the relevant implementation.
-7. Open **CLI Install** or **Skills** for additional setup guidance.
+7. Open **Lab Install** or **AI Skills** for the standalone CLI and reusable workflow prompts.
 
 ## Project structure
 
@@ -141,6 +141,49 @@ public/
 - Lucide React
 - Canvas 2D and SVG
 - Vercel
+
+## Standalone CLI
+
+The repository includes the independent `cybereun-motion` CLI. It copies the
+selected component source into your React project, so the result remains fully
+editable.
+
+### Install from this GitHub repository
+
+```bash
+git clone https://github.com/cybereun/cybereun-motion-lab.git
+cd cybereun-motion-lab
+npm install
+npm link
+```
+
+You can also install the CLI directly from GitHub:
+
+```bash
+npm install --global github:cybereun/cybereun-motion-lab
+```
+
+### Use in a React project
+
+```bash
+cd your-react-project
+cybereun-motion init
+cybereun-motion list loader
+cybereun-motion add terminal-loader
+cybereun-motion doctor
+```
+
+Available commands:
+
+| Command | Purpose |
+| --- | --- |
+| `cybereun-motion init` | Create `motion-lab.json` and the component directory |
+| `cybereun-motion list [query]` | Browse or filter bundled components |
+| `cybereun-motion add <name>` | Copy a component and install missing dependencies |
+| `cybereun-motion doctor` | Check Node.js, project configuration, and registry access |
+
+Use `--overwrite` to replace an existing component or `--skip-install` to copy
+source without installing its dependencies.
 
 ## Deployment
 

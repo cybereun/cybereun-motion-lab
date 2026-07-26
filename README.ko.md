@@ -1,5 +1,47 @@
 # Cybereun Motion Lab
 
+## 독립 실행형 CLI
+
+이 저장소에는 실제로 작동하는 `cybereun-motion` CLI가 포함되어 있습니다. 선택한
+React 모션 컴포넌트의 TSX 소스를 대상 프로젝트에 직접 복사하므로 설치 후에도 색상,
+속도, 구조와 애니메이션을 자유롭게 수정할 수 있습니다.
+
+### GitHub 저장소를 받은 뒤 연결하기
+
+```bash
+git clone https://github.com/cybereun/cybereun-motion-lab.git
+cd cybereun-motion-lab
+npm install
+npm link
+```
+
+GitHub에서 CLI만 바로 전역 설치할 수도 있습니다.
+
+```bash
+npm install --global github:cybereun/cybereun-motion-lab
+```
+
+### React 프로젝트에서 사용하기
+
+```bash
+cd 나의-react-프로젝트
+cybereun-motion init
+cybereun-motion list loader
+cybereun-motion add terminal-loader
+cybereun-motion doctor
+```
+
+| 명령 | 기능 |
+| --- | --- |
+| `cybereun-motion init` | `motion-lab.json`과 컴포넌트 폴더 생성 |
+| `cybereun-motion list [검색어]` | 내장된 컴포넌트 목록 검색 |
+| `cybereun-motion add <이름>` | TSX 소스 복사 및 누락된 의존성 설치 |
+| `cybereun-motion doctor` | Node.js, 프로젝트 설정과 레지스트리 상태 진단 |
+
+기존 파일을 교체하려면 `--overwrite`, 패키지 설치 없이 소스만 복사하려면
+`--skip-install`을 사용할 수 있습니다. 이 CLI와 갤러리는 Syed Subhan Uddin의
+Amicro를 기반으로 하며 원작자 저작권과 MIT 라이선스 고지를 유지합니다.
+
 <div align="center">
   <img src="./public/cybereun-icon.png" alt="Cybereun Motion Lab 아이콘" width="104" />
 
@@ -62,8 +104,8 @@ Cybereun Motion Lab은 오픈소스 Amicro 프로젝트를 기반으로 개인�
 | Buttons | 35 | 호버·포커스·클릭 체험 및 코드 복사 |
 | Card Spreads & 3D Carousels | 15 | 공간형 카드 미리보기와 레이아웃 변경 |
 | Loaders | 128 | 화면 진입 시 렌더링되는 애니메이션 미리보기 |
-| CLI Install | 안내 | 설치 명령 및 초기 설정 방법 |
-| Skills | 안내 | 활용 워크플로와 통합 방법 |
+| Lab Install | 안내 | GitHub 설치와 독립 CLI 설정 방법 |
+| AI Skills | 안내 | Cybereun 전용 AI 작업 레시피와 CLI 명령 |
 
 ## 시작하기
 
@@ -106,7 +148,7 @@ npm run preview
 4. 검색창에 이름을 입력하거나 목록·그리드·매트릭스 보기를 변경합니다.
 5. 원하는 컴포넌트 위에서 호버 또는 클릭 동작을 체험합니다.
 6. 복사 버튼으로 구현 코드를 복사합니다.
-7. **CLI Install**과 **Skills** 페이지에서 추가 설치 방법을 확인합니다.
+7. **Lab Install**과 **AI Skills** 페이지에서 독립 CLI와 작업 레시피를 확인합니다.
 
 ## 프로젝트 구조
 

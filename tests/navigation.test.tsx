@@ -5,6 +5,8 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import App from '../src/App';
 import { MotionWorkspace } from '../src/components/MotionWorkspace';
+import { CliPage } from '../src/components/CliPage';
+import { SkillsPage } from '../src/components/SkillsPage';
 
 test('the header links the Threads icon to @gogo_lebi', () => {
   const html = renderToStaticMarkup(<App initiallyEntered />);
@@ -120,4 +122,32 @@ test('the terminal loader cursor remains gray against its white card', () => {
 
   assert.match(css, /\[class\*="bg-zinc-900"\][\s\S]*\[class\*="dark:bg-zinc-800"\]/);
   assert.match(css, /background-color: #6b7280 !important/);
+});
+
+test('the install guide uses the real Cybereun GitHub workflow', () => {
+  const html = renderToStaticMarkup(
+    <CliPage theme="dark" onNavigateHome={() => undefined} />,
+  );
+
+  assert.match(html, /Cybereun Motion Lab 설치/);
+  assert.match(html, /git clone https:\/\/github\.com\/cybereun\/cybereun-motion-lab\.git/);
+  assert.match(html, /npm install/);
+  assert.match(html, /npm link/);
+  assert.match(html, /cybereun-motion init/);
+  assert.match(html, /cybereun-motion add fade-in/);
+  assert.match(html, /Syed Subhan Uddin/);
+  assert.doesNotMatch(html, /npx @subhanhq\/amicro/);
+});
+
+test('the skills guide contains Cybereun prompt recipes and project commands', () => {
+  const html = renderToStaticMarkup(
+    <SkillsPage theme="dark" onNavigateHome={() => undefined} />,
+  );
+
+  assert.match(html, /Motion Lab AI Skills/);
+  assert.match(html, /새 React 모션 컴포넌트를 추가해줘/);
+  assert.match(html, /cybereun GitHub/);
+  assert.match(html, /Syed Subhan Uddin/);
+  assert.doesNotMatch(html, /transitions\.dev/);
+  assert.doesNotMatch(html, /Jakubantalik/);
 });
